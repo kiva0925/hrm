@@ -10,7 +10,7 @@ public class User {
 
     private String uPass;//密码
 
-    private Integer uType;//状态
+    private Integer uType;//状态[0:管理员,1:普通用户,2:员工]
 
     public Integer getuId() {
         return uId;
