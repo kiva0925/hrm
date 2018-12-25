@@ -3,8 +3,11 @@ package com.hrm.dao;
 import com.hrm.model.Title;
 import com.hrm.model.TitleExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface TitleMapper {
     int countByExample(TitleExample example);
 

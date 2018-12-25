@@ -43,4 +43,14 @@ public class Title {
     public void setdId(Integer dId) {
         this.dId = dId;
     }
+
+    @Override
+    public String toString() {
+        return "Title{" +
+                "tId=" + tId +
+                ", tName='" + tName + '\'' +
+                ", tCreation='" + tCreation + '\'' +
+                ", dId=" + dId +
+                '}';
+    }
 }

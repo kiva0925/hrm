@@ -3,8 +3,11 @@ package com.hrm.dao;
 import com.hrm.model.Department;
 import com.hrm.model.DepartmentExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface DepartmentMapper {
     int countByExample(DepartmentExample example);
 

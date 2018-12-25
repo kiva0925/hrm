@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.DepartmentVoMapper">
+    <select id="getDandT" resultMap="DepartmentVoMap">
+        select T_DEPARTMENT.D_ID,D_NAME,D_CREATION,T_ID,T_NAME,T_CREATION
+        from T_DEPARTMENT,T_TITLE
+        where T_DEPARTMENT.D_ID=T_TITLE.D_ID;
+    </select>
+    <resultMap id="DepartmentVoMap" extends="com.hrm.dao.DepartmentMapper.BaseResultMap" type="com.hrm.model.DepartmentVo">
+        <association property="titles" javaType="com.hrm.model.Title">
+            <id property="tId" column="T_ID"/>
+            <result property="tName" column="T_NAME"/>
+            <result property="tCreation" column="T_CREATION"/>
+        </association>
+    </resultMap>
+</mapper>

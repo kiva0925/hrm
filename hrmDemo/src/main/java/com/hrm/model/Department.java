@@ -33,4 +33,13 @@ public class Department {
     public void setdCreation(String dCreation) {
         this.dCreation = dCreation == null ? null : dCreation.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "dId=" + dId +
+                ", dName='" + dName + '\'' +
+                ", dCreation='" + dCreation + '\'' +
+                '}';
+    }
 }

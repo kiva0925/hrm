@@ -3,8 +3,11 @@ package com.hrm.dao;
 import com.hrm.model.User;
 import com.hrm.model.UserExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface UserMapper {
     int countByExample(UserExample example);
 
