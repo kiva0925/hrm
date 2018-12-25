@@ -8,10 +8,37 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="assets/css/ready.css">
     <link rel="stylesheet" href="assets/css/demo.css">
+    <script src="js/jquery-3.3.1.js" type="text/javascript"></script>
 </head>
 <body>
-<script th:if="${sign!=null}">
-    var sign="[[${sign}]]";
+<script>
+    $(function (){
+        $("#depart").click(function(){
+            var val=$("#departname").val();
+            if(val==""){
+                alert("部门名称不能为空");
+                return false;
+            }
+            if(val.length>20){
+                alert("部门名称过长");
+                return false;
+            }
+        })
+        $("#job").click(function() {
+            var val = $("#squareInput").val();
+            if (val == "") {
+                alert("职位名称不能为空");
+                return false;
+            }
+            if (val.length > 20) {
+                alert("职位名称过长");
+                return false;
+            }
+        })
+    })
+</script>
+<script th:if="${session.sign!=null}">
+    var sign="[[${session.sign}]]";
     alert(sign);
 </script>
 
@@ -242,11 +269,11 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="squareInput">创建部门</label>
-                                        <input type="text" name="dName" class="form-control input-square" placeholder="职位名称">
+                                        <input type="text" id="departname" name="dName" class="form-control input-square" placeholder="职位名称">
                                     </div>
                                 </div>
                                 <div class="card-action">
-                                    <input class="btn btn-success" type="submit" value="提交">
+                                    <input id="depart" class="btn btn-success" type="submit" value="提交">
                                     <input class="btn btn-danger" type="reset" value="重置">
                                 </div>
                             </form>
@@ -271,7 +298,7 @@
                                     </div>
                                 </div>
                                 <div class="card-action">
-                                    <input class="btn btn-success" type="submit" value="提交">
+                                    <input id="job" class="btn btn-success" type="submit" value="提交">
                                     <input class="btn btn-danger" type="reset" value="重置">
                                 </div>
                             </form>

@@ -24,12 +24,18 @@ public class TitleController {
         String date = df.format(new Date());
         title.settCreation(date);
         String sign = null;
-        if(titleService.addTitle(title)>0){
-            sign = "创建成功";
+        if(title != null){
+            if(titleService.addTitle(title)>0){
+                sign = "创建成功";
+            }else {
+                sign = "创建失败";
+            }
+            model.addAttribute("sign",sign);
+            return "admin/depart";
         }else {
-            sign = "创建失败";
+            sign = "空";
+            model.addAttribute("sign",sign);
+            return "admin/depart";
         }
-        model.addAttribute("sign",sign);
-        return "admin/depart";
     }
 }

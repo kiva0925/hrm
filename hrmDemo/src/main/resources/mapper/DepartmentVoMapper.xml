@@ -4,7 +4,7 @@
     <select id="getDandT" resultMap="DepartmentVoMap">
         select T_DEPARTMENT.D_ID,D_NAME,D_CREATION,T_ID,T_NAME,T_CREATION
         from T_DEPARTMENT,T_TITLE
-        where T_DEPARTMENT.D_ID=T_TITLE.D_ID;
+        where T_DEPARTMENT.D_ID=T_TITLE.D_ID
     </select>
     <resultMap id="DepartmentVoMap" extends="com.hrm.dao.DepartmentMapper.BaseResultMap" type="com.hrm.model.DepartmentVo">
         <association property="titles" javaType="com.hrm.model.Title">

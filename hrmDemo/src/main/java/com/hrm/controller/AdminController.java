@@ -26,8 +26,7 @@ public class AdminController {
     @RequestMapping("/depart")
     public String depart(HttpSession session) throws Exception{
         List<Department> departments = departmentService.getDepartments();
-        List<DepartmentVo> departmentVos = departmentVoService.getDepartmentVos();
-        System.out.println(departmentVos);
+        //List<DepartmentVo> departmentVos = departmentVoService.getDepartmentVos();
         session.setAttribute("departments",departments);
         return "admin/depart";
     }
