@@ -43,4 +43,14 @@ public class User {
     public void setuType(Integer uType) {
         this.uType = uType;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uId=" + uId +
+                ", uName='" + uName + '\'' +
+                ", uPass='" + uPass + '\'' +
+                ", uType=" + uType +
+                '}';
+    }
 }

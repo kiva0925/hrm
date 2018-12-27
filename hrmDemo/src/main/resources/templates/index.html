@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -22,21 +22,21 @@
             </div>
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
-                    <li class="menu-active"><a href="index.html">Home</a></li>
-                    <li><a href="about-us.html">About Us</a></li>
-                    <li><a href="category.html">Category</a></li>
-                    <li><a href="price.html">Price</a></li>
-                    <li><a href="blog-home.html">Blog</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li class="menu-has-children"><a href="">Pages</a>
+                    <li class="menu-active"><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Category</a></li>
+                    <li><a href="#">Price</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="/getBio">我的简历</a></li>
+                    <li class="menu-has-children"><a href="#">我的信箱</a>
                         <ul>
-                            <li><a href="elements.html">elements</a></li>
-                            <li><a href="search.html">search</a></li>
-                            <li><a href="single.html">single</a></li>
+                            <li><a href="">已查看</a></li>
+                            <li><a href="">未查看</a></li>
+                            <li><a href="">全部</a></li>
                         </ul>
                     </li>
-                    <li><a class="ticker-btn" href="#">Signup</a></li>
-                    <li><a class="ticker-btn" href="#">Login</a></li>
+                    <li th:if="${session.user==null}"><a class="ticker-btn" href="get">Sign</a></li>
+                    <li th:if="${session.user!=null}">欢迎您，<span th:text="${session.user.uName}"></span></li>
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>

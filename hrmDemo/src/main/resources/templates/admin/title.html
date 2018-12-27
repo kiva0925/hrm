@@ -13,22 +13,61 @@
 <body>
 <script>
     $(function (){
-        $("#depart").click(function(){
-            var val=$("#departname").val();
-            if(val==""){
-                alert("部门名称不能为空");
+        $("#job").click(function() {
+            var val = $("#squareInput").val();
+            if (val == "") {
+                alert("职位名称不能为空");
                 return false;
             }
-            if(val.length>20){
-                alert("部门名称过长");
+            if (val.length > 20) {
+                alert("职位名称过长");
                 return false;
             }
         })
+
     })
 </script>
 <script th:if="${sign!=null}">
     var sign="[[${sign}]]";
     alert(sign);
+</script>
+<script th:inner="javascript">
+    $(function (){
+        $("#sel1").change(function() {
+            //清空
+            $("#sel2").html("");
+
+            var did=$("#sel1").val();
+            $.ajax({
+                type:"post",
+                url:"selectTitle",
+                data:"did="+did,
+                success:function (obj) {
+                    if (obj != null){
+                        for (var i in obj) {
+                            var option = $("<option></option>")
+                            option.text(obj[i].tName)
+                            option.attr("value",obj[i].tId)
+                            $("#sel2").append(option)
+                        }
+                    }
+                }
+            })
+        })
+        $("#del").click(function() {
+            var dId=$("#sel1").val();
+            var tId=$("#sel2").val();
+            var tName = $("#sel2").val();
+            $.ajax({
+                type:"post",
+                url:"delTitle",
+                data:{'dId':dId,'tName':tName,'tId':tId},
+                success:function (obj) {
+                    window.location.href = 'getTitle';
+                }
+            })
+        })
+    })
 </script>
 
 <div class="wrapper">
@@ -187,17 +226,17 @@
                 </div>
             </div>
             <ul class="nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="depart">
                         <i class="la la-th"></i>
                         <p>部门</p>
                         <span class="badge badge-count"></span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a href="getTitle">
                         <i class="la la-th"></i>
-                        <p>职位</p>
+                        <p>职务</p>
                         <span class="badge badge-count"></span>
                     </a>
                 </li>
@@ -221,35 +260,21 @@
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-                <h4 class="page-title">部门操作</h4>
+                <h4 class="page-title">Forms</h4>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">部门创建</div>
+                                <div class="card-title">职位创建</div>
                             </div>
-                            <form action="adddepartment" method="post">
+                            <form action="addTitle" method="post">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label>创建部门</label>
-                                        <input type="text" id="departname" name="dName" class="form-control input-square" placeholder="职位名称">
+                                        <label for="squareInput">创建职位</label>
+                                        <input type="text" name="tName" class="form-control input-square" id="squareInput" placeholder="职位名称">
                                     </div>
-                                </div>
-                                <div class="card-action">
-                                    <input id="depart" class="btn btn-success" type="submit" value="提交">
-                                    <input class="btn btn-danger" type="reset" value="重置">
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">部门删除</div>
-                            </div>
-                            <form action="deldepartment" method="post">
-                                <div class="card-body">
                                     <div class="form-group">
-                                        <label>删除部门</label>
+                                        <label for="squareSelect">所属部门</label>
                                         <select class="form-control input-square" id="squareSelect" name="dId">
                                             <option>请选择</option>
                                             <option th:each="d:${session.departments}" th:value="${d.dId}"><span th:text="${d.dName}"></span></option>
@@ -257,10 +282,34 @@
                                     </div>
                                 </div>
                                 <div class="card-action">
-                                    <input class="btn btn-success" type="submit" value="删除">
+                                    <input id="job" class="btn btn-success" type="submit" value="提交">
                                     <input class="btn btn-danger" type="reset" value="重置">
                                 </div>
                             </form>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">职位删除</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="squareSelect">所属部门</label>
+                                    <select id="sel1" class="form-control input-square" name="dId">
+                                        <option>请选择</option>
+                                        <option th:each="d:${session.departments}" th:value="${d.dId}"><span th:text="${d.dName}"></span></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="squareSelect">部门职位</label>
+                                    <select id="sel2" class="form-control input-square" name="tId">
+                                        <option>请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button id="del" class="btn btn-success">删除</button>
+                            </div>
                         </div>
                     </div>
                 </div>

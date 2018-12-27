@@ -16,3 +16,9 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
+pagehelper:
+  helper-dialect: oracle
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

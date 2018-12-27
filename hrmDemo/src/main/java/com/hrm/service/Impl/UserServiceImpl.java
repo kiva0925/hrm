@@ -15,6 +15,13 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Override
     public int register(User user) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criterion = userExample.createCriteria();
+        criterion.andUNameEqualTo(user.getuName());
+        List<User> users = userMapper.selectByExample(userExample);
+        if(users.size()>0){
+            return 0;//已存在
+        }
         return userMapper.insertSelective(user);
     }
 

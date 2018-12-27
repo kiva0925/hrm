@@ -16,13 +16,13 @@ import java.util.List;
 public class DepartmentController {
     @Resource
     private DepartmentService departmentService;
+    private String sign = null;
 
     @RequestMapping("/adddepartment")
-    public String depart(Department department, HttpSession session, Model model) throws Exception{
+    public String adddepartment(Department department, HttpSession session, Model model) throws Exception{
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = df.format(new Date());
         department.setdCreation(date);
-        String sign = null;
         List<Department> departments = (List<Department>) session.getAttribute("departments");
         for (Department d : departments) {
             if(d.getdName().equals(department.getdName())){
@@ -33,14 +33,24 @@ public class DepartmentController {
             if(departmentService.adddepartment(department)>0){
                 sign = "创建成功";
                 session.setAttribute("sign",sign);
-                System.out.println(sign);
                 return "redirect:depart";
             }else {
                 sign = "创建失败";
             }
         }
-        session.setAttribute("sign",sign);
-        System.out.println(sign);
+        model.addAttribute("sign",sign);
         return "admin/depart";
+    }
+
+    @RequestMapping("/deldepartment")
+    public String deldepartment(Department department, HttpSession session, Model model) throws Exception{
+        System.out.println(department);
+        if(departmentService.deldepartment(department)>0){
+            sign = "删除成功";
+        }else {
+            sign = "删除失败";
+        }
+        session.setAttribute("sign",sign);
+        return "redirect:depart";
     }
 }
