@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.BioMapper" >
+  <resultMap id="BaseResultMap" type="com.hrm.model.Bio" >
+    <id column="B_ID" property="bId" jdbcType="DECIMAL" />
+    <result column="B_NAME" property="bName" jdbcType="VARCHAR" />
+    <result column="B_SEX" property="bSex" jdbcType="VARCHAR" />
+    <result column="B_SCHOOLTAG" property="bSchooltag" jdbcType="VARCHAR" />
+    <result column="B_EDUCATION" property="bEducation" jdbcType="VARCHAR" />
+    <result column="B_SPECIALTY" property="bSpecialty" jdbcType="VARCHAR" />
+    <result column="B_BIRTHDAY" property="bBirthday" jdbcType="VARCHAR" />
+    <result column="B_PLACE" property="bPlace" jdbcType="VARCHAR" />
+    <result column="B_PHONE" property="bPhone" jdbcType="VARCHAR" />
+    <result column="B_ADDRESS" property="bAddress" jdbcType="VARCHAR" />
+    <result column="B_EMAIL" property="bEmail" jdbcType="VARCHAR" />
+    <result column="B_EBACKGROUND" property="bEbackground" jdbcType="VARCHAR" />
+    <result column="B_SKILL" property="bSkill" jdbcType="VARCHAR" />
+    <result column="B_EXPERIENCE" property="bExperience" jdbcType="VARCHAR" />
+    <result column="U_ID" property="uId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    B_ID, B_NAME, B_SEX, B_SCHOOLTAG, B_EDUCATION, B_SPECIALTY, B_BIRTHDAY, B_PLACE, 
+    B_PHONE, B_ADDRESS, B_EMAIL, B_EBACKGROUND, B_SKILL, B_EXPERIENCE, U_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hrm.model.BioExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_BIO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BIO
+    where B_ID = #{bId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_BIO
+    where B_ID = #{bId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hrm.model.BioExample" >
+    delete from T_BIO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hrm.model.Bio" >
+    insert into T_BIO (B_ID, B_NAME, B_SEX, 
+      B_SCHOOLTAG, B_EDUCATION, B_SPECIALTY, 
+      B_BIRTHDAY, B_PLACE, B_PHONE, 
+      B_ADDRESS, B_EMAIL, B_EBACKGROUND, 
+      B_SKILL, B_EXPERIENCE, U_ID
+      )
+    values (#{bId,jdbcType=DECIMAL}, #{bName,jdbcType=VARCHAR}, #{bSex,jdbcType=VARCHAR}, 
+      #{bSchooltag,jdbcType=VARCHAR}, #{bEducation,jdbcType=VARCHAR}, #{bSpecialty,jdbcType=VARCHAR}, 
+      #{bBirthday,jdbcType=VARCHAR}, #{bPlace,jdbcType=VARCHAR}, #{bPhone,jdbcType=VARCHAR}, 
+      #{bAddress,jdbcType=VARCHAR}, #{bEmail,jdbcType=VARCHAR}, #{bEbackground,jdbcType=VARCHAR}, 
+      #{bSkill,jdbcType=VARCHAR}, #{bExperience,jdbcType=VARCHAR}, #{uId,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hrm.model.Bio" >
+    insert into T_BIO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="bName != null" >
+        B_NAME,
+      </if>
+      <if test="bSex != null" >
+        B_SEX,
+      </if>
+      <if test="bSchooltag != null" >
+        B_SCHOOLTAG,
+      </if>
+      <if test="bEducation != null" >
+        B_EDUCATION,
+      </if>
+      <if test="bSpecialty != null" >
+        B_SPECIALTY,
+      </if>
+      <if test="bBirthday != null" >
+        B_BIRTHDAY,
+      </if>
+      <if test="bPlace != null" >
+        B_PLACE,
+      </if>
+      <if test="bPhone != null" >
+        B_PHONE,
+      </if>
+      <if test="bAddress != null" >
+        B_ADDRESS,
+      </if>
+      <if test="bEmail != null" >
+        B_EMAIL,
+      </if>
+      <if test="bEbackground != null" >
+        B_EBACKGROUND,
+      </if>
+      <if test="bSkill != null" >
+        B_SKILL,
+      </if>
+      <if test="bExperience != null" >
+        B_EXPERIENCE,
+      </if>
+      <if test="uId != null" >
+        U_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=DECIMAL},
+      </if>
+      <if test="bName != null" >
+        #{bName,jdbcType=VARCHAR},
+      </if>
+      <if test="bSex != null" >
+        #{bSex,jdbcType=VARCHAR},
+      </if>
+      <if test="bSchooltag != null" >
+        #{bSchooltag,jdbcType=VARCHAR},
+      </if>
+      <if test="bEducation != null" >
+        #{bEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="bSpecialty != null" >
+        #{bSpecialty,jdbcType=VARCHAR},
+      </if>
+      <if test="bBirthday != null" >
+        #{bBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="bPlace != null" >
+        #{bPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="bPhone != null" >
+        #{bPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="bAddress != null" >
+        #{bAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bEmail != null" >
+        #{bEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="bEbackground != null" >
+        #{bEbackground,jdbcType=VARCHAR},
+      </if>
+      <if test="bSkill != null" >
+        #{bSkill,jdbcType=VARCHAR},
+      </if>
+      <if test="bExperience != null" >
+        #{bExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hrm.model.BioExample" resultType="java.lang.Integer" >
+    select count(*) from T_BIO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_BIO
+    <set >
+      <if test="record.bId != null" >
+        B_ID = #{record.bId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bName != null" >
+        B_NAME = #{record.bName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bSex != null" >
+        B_SEX = #{record.bSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bSchooltag != null" >
+        B_SCHOOLTAG = #{record.bSchooltag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bEducation != null" >
+        B_EDUCATION = #{record.bEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bSpecialty != null" >
+        B_SPECIALTY = #{record.bSpecialty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bBirthday != null" >
+        B_BIRTHDAY = #{record.bBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bPlace != null" >
+        B_PLACE = #{record.bPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bPhone != null" >
+        B_PHONE = #{record.bPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bAddress != null" >
+        B_ADDRESS = #{record.bAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bEmail != null" >
+        B_EMAIL = #{record.bEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bEbackground != null" >
+        B_EBACKGROUND = #{record.bEbackground,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bSkill != null" >
+        B_SKILL = #{record.bSkill,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bExperience != null" >
+        B_EXPERIENCE = #{record.bExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uId != null" >
+        U_ID = #{record.uId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_BIO
+    set B_ID = #{record.bId,jdbcType=DECIMAL},
+      B_NAME = #{record.bName,jdbcType=VARCHAR},
+      B_SEX = #{record.bSex,jdbcType=VARCHAR},
+      B_SCHOOLTAG = #{record.bSchooltag,jdbcType=VARCHAR},
+      B_EDUCATION = #{record.bEducation,jdbcType=VARCHAR},
+      B_SPECIALTY = #{record.bSpecialty,jdbcType=VARCHAR},
+      B_BIRTHDAY = #{record.bBirthday,jdbcType=VARCHAR},
+      B_PLACE = #{record.bPlace,jdbcType=VARCHAR},
+      B_PHONE = #{record.bPhone,jdbcType=VARCHAR},
+      B_ADDRESS = #{record.bAddress,jdbcType=VARCHAR},
+      B_EMAIL = #{record.bEmail,jdbcType=VARCHAR},
+      B_EBACKGROUND = #{record.bEbackground,jdbcType=VARCHAR},
+      B_SKILL = #{record.bSkill,jdbcType=VARCHAR},
+      B_EXPERIENCE = #{record.bExperience,jdbcType=VARCHAR},
+      U_ID = #{record.uId,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.model.Bio" >
+    update T_BIO
+    <set >
+      <if test="bName != null" >
+        B_NAME = #{bName,jdbcType=VARCHAR},
+      </if>
+      <if test="bSex != null" >
+        B_SEX = #{bSex,jdbcType=VARCHAR},
+      </if>
+      <if test="bSchooltag != null" >
+        B_SCHOOLTAG = #{bSchooltag,jdbcType=VARCHAR},
+      </if>
+      <if test="bEducation != null" >
+        B_EDUCATION = #{bEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="bSpecialty != null" >
+        B_SPECIALTY = #{bSpecialty,jdbcType=VARCHAR},
+      </if>
+      <if test="bBirthday != null" >
+        B_BIRTHDAY = #{bBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="bPlace != null" >
+        B_PLACE = #{bPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="bPhone != null" >
+        B_PHONE = #{bPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="bAddress != null" >
+        B_ADDRESS = #{bAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bEmail != null" >
+        B_EMAIL = #{bEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="bEbackground != null" >
+        B_EBACKGROUND = #{bEbackground,jdbcType=VARCHAR},
+      </if>
+      <if test="bSkill != null" >
+        B_SKILL = #{bSkill,jdbcType=VARCHAR},
+      </if>
+      <if test="bExperience != null" >
+        B_EXPERIENCE = #{bExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="uId != null" >
+        U_ID = #{uId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.model.Bio" >
+    update T_BIO
+    set B_NAME = #{bName,jdbcType=VARCHAR},
+      B_SEX = #{bSex,jdbcType=VARCHAR},
+      B_SCHOOLTAG = #{bSchooltag,jdbcType=VARCHAR},
+      B_EDUCATION = #{bEducation,jdbcType=VARCHAR},
+      B_SPECIALTY = #{bSpecialty,jdbcType=VARCHAR},
+      B_BIRTHDAY = #{bBirthday,jdbcType=VARCHAR},
+      B_PLACE = #{bPlace,jdbcType=VARCHAR},
+      B_PHONE = #{bPhone,jdbcType=VARCHAR},
+      B_ADDRESS = #{bAddress,jdbcType=VARCHAR},
+      B_EMAIL = #{bEmail,jdbcType=VARCHAR},
+      B_EBACKGROUND = #{bEbackground,jdbcType=VARCHAR},
+      B_SKILL = #{bSkill,jdbcType=VARCHAR},
+      B_EXPERIENCE = #{bExperience,jdbcType=VARCHAR},
+      U_ID = #{uId,jdbcType=DECIMAL}
+    where B_ID = #{bId,jdbcType=DECIMAL}
+  </update>
+</mapper>
