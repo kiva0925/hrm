@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>招聘职位</title>
+    <link rel="stylesheet" href="css/detailsStyle.css">
+</head>
+<body>
+    <div id="holder">
+        <h1 th:text="${recruitVo.rTheme}"></h1>
+        <h2>发布时间</h2>
+        <p class="desc" th:text="${recruitVo.rTime}"></p>
+        <h2>招聘内容</h2>
+        <p class="desc" th:text="${recruitVo.rContent}"></p>
+        <h2>招聘要求</h2>
+        <p class="desc" th:text="${recruitVo.rRequire}"></p>
+        <div class="button">
+            <p class="btnText"><a th:href="@{/apply(rId=${recruitVo.rId})}">申请</a></p>
+            <div class="btnTwo">
+                <p class="btnText2">
+                    <i class="fa fa-check"></i>
+                </p>
+            </div>
+        </div>
+        <div class="button">
+            <p class="btnText"><a href="index">取消</a></p>
+            <div class="btnTwo">
+                <p class="btnText2">
+                    <i class="fa fa-times"></i>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

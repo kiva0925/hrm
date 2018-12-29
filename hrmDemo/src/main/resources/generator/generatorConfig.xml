@@ -33,44 +33,13 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-    <!--<context id="oraclegenerator" targetRuntime="MyBatis3Simple">
-
-        <commentGenerator>
-            <property name="suppressDate" value="true"/>
-            &lt;!&ndash; 是否去除自动生成的注释 true：是 ： false:否 &ndash;&gt;
-            <property name="suppressAllComments" value="true"/>
-        </commentGenerator>
-
-        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
-                        connectionURL="jdbc:oracle:thin:@localhost:1521:xe"
-                        userId="hrm"
-                        password="lion"/>
-
-        <javaTypeResolver >
-            <property name="forceBigDecimals" value="false" />
-        </javaTypeResolver>
-
-        <javaModelGenerator targetPackage="com.hrm.model" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true"/>
-            <property name="trimStrings" value="true"/>
-        </javaModelGenerator>
-
-        &lt;!&ndash;生成映射文件存放位置&ndash;&gt;
-        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
-            <property name="enableSubPackages" value="false"/>
-        </sqlMapGenerator>
-
-        <javaClientGenerator targetPackage="com.hrm.dao" type="XMLMAPPER" targetProject="src/main/java">
-            &lt;!&ndash; 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false &ndash;&gt;
-            <property name="enableSubPackages" value="true"/>
-        </javaClientGenerator>-->
-
         <!--<table tableName="t_user" domainObjectName="User"/>
         <table tableName="t_staff" domainObjectName="Staff"/>
         <table tableName="t_stype" domainObjectName="Stype"/>
         <table tableName="t_department" domainObjectName="Department"/>
         <table tableName="t_title" domainObjectName="Title"/>
-        <table tableName="t_bio" domainObjectName="Bio"/>-->
-        <table tableName="t_recruit" domainObjectName="Recruit"/>
+        <table tableName="t_bio" domainObjectName="Bio"/>
+        <table tableName="t_recruit" domainObjectName="Recruit"/>-->
+        <table tableName="t_invited" domainObjectName="Invited"/>
     </context>
 </generatorConfiguration>

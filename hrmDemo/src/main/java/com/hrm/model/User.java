@@ -20,6 +20,14 @@ public class User {
         this.uId = uId;
     }
 
+    public Integer getUId() {
+        return uId;
+    }
+
+    public void setUId(Integer uId) {
+        this.uId = uId;
+    }
+
     public String getuName() {
         return uName;
     }

@@ -13,20 +13,20 @@
 <body>
 <script>
     $(function (){
-        $("#depart").click(function(){
-            var val=$("#departname").val();
-            if(val==""){
-                alert("部门名称不能为空");
-                return false;
-            }
-            if(val.length>20){
-                alert("部门名称过长");
-                return false;
-            }
+        $(".notification").click(function() {
+            var iId=$(this).attr("value")
+            var iTime = prompt("请输入面试时间")
+            $.ajax({
+                type:"post",
+                url:"audition",
+                data:{'iId':iId,'iTime':iTime},
+                success:function (obj) {
+                    alert(obj)
+                }
+            })
         })
     })
 </script>
-
 <div class="wrapper">
     <div class="main-header">
         <div class="logo-header">
@@ -183,83 +183,64 @@
                 </div>
             </div>
             <ul class="nav">
-                <li class="nav-item active">
-                    <a href="depart">
-                        <i class="la la-th"></i>
-                        <p>部门</p>
-                        <span class="badge badge-count"></span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="getTitle">
-                        <i class="la la-th"></i>
-                        <p>职位</p>
-                        <span class="badge badge-count"></span>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a href="getRecruit">
                         <i class="la la-th"></i>
-                        <p>招聘</p>
+                        <p>返回上页</p>
                         <span class="badge badge-count"></span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="">
+
+                <li class="nav-item active">
+                    <a href="#">
                         <i class="la la-th"></i>
-                        <p>员工</p>
+                        <p>情况</p>
                         <span class="badge badge-count"></span>
                     </a>
                 </li>
+
             </ul>
         </div>
     </div>
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-                <h4 class="page-title">部门操作</h4>
+                <h4 class="page-title">招聘信息->简历查看</h4>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="right: auto">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">部门创建</div>
+                                <div class="card-title">招聘情况</div>
                             </div>
-                            <form action="adddepartment" method="post">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label>创建部门</label>
-                                        <input type="text" id="departname" name="dName" class="form-control input-square" placeholder="职位名称">
-                                    </div>
-                                </div>
-                                <div class="card-action">
-                                    <input id="depart" class="btn btn-success" type="submit" value="提交">
-                                    <input class="btn btn-danger" type="reset" value="重置">
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">部门删除</div>
+                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">姓名</th>
+                                        <th scope="col">学校</th>
+                                        <th scope="col" colspan="2" style="text-align: center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="i:${session.invitedVosByRId}">
+                                        <td><span th:text="${i.bio.bName}"></span></td>
+                                        <td><span th:text="${i.bio.bSchooltag}"></span></td>
+                                        <td><a th:href="@{/checkBio(bId=${i.bio.bId})}">
+                                            <button class="btn btn-info btn-sm">查看</button>
+                                        </a>
+                                        </td>
+                                        <td>
+                                            <button class="notification" th:value="${i.iId}" style="background-color:#59d05d;;width: 52px;height: 36px;color: white;border: none;cursor: pointer">通知</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <form action="deldepartment" method="post">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label>删除部门</label>
-                                        <select class="form-control input-square" id="squareSelect" name="dId">
-                                            <option>请选择</option>
-                                            <option th:each="d:${session.departments}" th:value="${d.dId}"><span th:text="${d.dName}"></span></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="card-action">
-                                    <input class="btn btn-success" type="submit" value="删除">
-                                    <input class="btn btn-danger" type="reset" value="重置">
-                                </div>
-                            </form>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>

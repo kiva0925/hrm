@@ -25,4 +25,12 @@ public class BioController {
         bioService.addBio(bio);
         return "redirect:getBio";
     }
+
+    @RequestMapping("/checkBio")
+    public String checkBio(Bio bio,HttpSession session){
+        System.out.println(bio);
+        Bio bio1 = bioService.getBio(bio);
+        session.setAttribute("bio",bio1);
+        return "normal/rBio";
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -25,11 +26,13 @@ public class AdminController {
     }
 
     @RequestMapping("/depart")
-    public String depart(HttpSession session, Model model) throws Exception{
+    public String depart(HttpSession session, Model model, HttpServletResponse response) throws Exception{
         List<Department> departments = departmentService.getDepartments();
-        //List<DepartmentVo> departmentVos = departmentVoService.getDepartmentVos();
         String sign = (String) session.getAttribute("sign");
-        model.addAttribute("sign",sign);
+        if(sign != null){
+            response.getWriter().print("<script>alert(\""+sign+"\");</script>");
+        }
+        session.removeAttribute("sign");
         session.setAttribute("departments",departments);
         return "admin/depart";
     }

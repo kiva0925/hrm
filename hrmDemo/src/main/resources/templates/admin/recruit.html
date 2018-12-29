@@ -11,6 +11,33 @@
     <script src="js/jquery-3.3.1.js" type="text/javascript"></script>
 </head>
 <body>
+
+<script th:inner="javascript">
+    $(function (){
+        $("#sel1").change(function() {
+            //清空
+            $("#sel2").html("");
+
+            var did=$("#sel1").val();
+            $.ajax({
+                type:"post",
+                url:"selectRecruit",
+                data:"did="+did,
+                success:function (obj) {
+                    if (obj != null){
+                        for (var i in obj) {
+                            var option = $("<option></option>")
+                            option.text(obj[i].tName)
+                            option.attr("value",obj[i].tId)
+                            $("#sel2").append(option)
+                        }
+                    }
+                }
+            })
+        })
+    })
+</script>
+
 <div class="wrapper">
     <div class="main-header">
         <div class="logo-header">
@@ -182,7 +209,7 @@
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a href="">
+                    <a href="getRecruit">
                         <i class="la la-th"></i>
                         <p>招聘</p>
                         <span class="badge badge-count"></span>
@@ -208,12 +235,24 @@
                             <div class="card-header">
                                 <div class="card-title">发布招聘</div>
                             </div>
-                            <form action="" method="post">
+                            <form action="addRecruit" method="post">
                                 <div class="card-body">
+                                    <div class="form-group">
+                                        <label>所属部门</label>
+                                        <select id="sel1" class="form-control input-square" name="dId">
+                                            <option>请选择</option>
+                                            <option th:each="d:${session.departmentVos}" th:value="${d.dId}"><span th:text="${d.dName}"></span></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>部门职位</label>
+                                        <select id="sel2" class="form-control input-square" name="tId">
+                                            <option>请选择</option>
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label>招聘主题</label>
                                         <input type="text" id="rTheme" name="rTheme" class="form-control input-square" placeholder="招聘主题">
-                                        <textarea placeholder=""></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>招聘内容</label>
@@ -223,6 +262,14 @@
                                         <label>招聘要求</label>
                                         <textarea class="form-control" name="rRequire" id="rRequire" rows="5"></textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label>招聘人数</label>
+                                        <input type="number" value="1" min="1" id="rCount" name="rCount" class="form-control input-square" placeholder="招聘人数">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>发布时间</label>
+                                        <input type="date" min="1" id="rTime" name="rTime" class="form-control input-square" placeholder="发布时间">
+                                    </div>
                                 </div>
                                 <div class="card-action">
                                     <input id="depart" class="btn btn-success" type="submit" value="提交">
@@ -231,7 +278,68 @@
                             </form>
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">当前招聘信息</div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">主题</th>
+                                        <th scope="col">需求职位</th>
+                                        <th scope="col">人数</th>
+                                        <th scope="col">发布时间</th>
+                                        <th scope="col">招聘情况</th>
+                                        <th scope="col">删除操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="t:${session.recruitVos}">
+                                        <td><span th:text="${t.rTheme}"></span></td>
+                                        <td><span th:text="${t.title.tName}"></span></td>
+                                        <td><span th:text="${t.rCount}"></span></td>
+                                        <td><span th:text="${t.rTime}"></span></td>
+                                        <td><a th:href="@{/inter(rId=${t.rId})}">
+                                            <button class="btn btn-info btn-sm">查看</button>
+                                        </a></td>
+                                        <td><button class="btn btn-success btn-sm">撤销</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    ThemeKita
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    Help
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    Licenses
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="copyright ml-auto">
+                        2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">ThemeKita</a> - More Templates <a href="#" target="_blank"></a> - Collect from <a href="#" target="_blank"></a></div>
+                </div>
+            </footer>
+
             </div>
         </div>
     </div>

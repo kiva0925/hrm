@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.InvitedVoMapper">
+    <select id="getInvitedVos" resultMap="InvitedVoMap">
+        select T_INVITED.I_ID, I_TIME, I_TYPE,
+        T_RECRUIT.R_ID, R_THEME, R_CONTENT, R_REQUIRE, R_COUNT, R_TIME,T_RECRUIT.T_ID,T_NAME,
+        T_INVITED.U_ID, U_NAME, U_PASS, U_TYPE,
+        T_INVITED.B_ID, B_NAME, B_SEX, B_SCHOOLTAG, B_EDUCATION, B_SPECIALTY, B_BIRTHDAY, B_PLACE,
+    B_PHONE, B_ADDRESS, B_EMAIL, B_EBACKGROUND, B_SKILL, B_EXPERIENCE
+        from T_INVITED,T_RECRUIT,T_BIO,T_USER,T_TITLE
+        where T_INVITED.U_ID = T_USER.U_ID
+        and T_INVITED.R_ID = T_RECRUIT.R_ID
+        and T_INVITED.B_ID = T_BIO.B_ID
+        and T_RECRUIT.T_ID = T_TITLE.T_ID
+        <if test="rId!=null">
+            and T_INVITED.R_ID = #{rId}
+        </if>
+    </select>
+    <resultMap id="InvitedVoMap" extends="com.hrm.dao.InvitedMapper.BaseResultMap" type="com.hrm.model.InvitedVo">
+
+        <association property="user" javaType="com.hrm.model.User">
+            <id property="uId" column="USER_ID"/>
+            <result property="uName" column="U_NAME"/>
+            <result property="uPass" column="U_PASS"/>
+            <result property="uType" column="U_TYPE"/>
+        </association>
+        <association property="bio" javaType="com.hrm.model.Bio">
+            <id property="bId" column="B_ID"/>
+            <result property="bName" column="B_NAME"/>
+            <result property="bSex" column="B_SEX"/>
+            <result property="bSchooltag" column="B_SCHOOLTAG"/>
+            <result property="bEducation" column="B_EDUCATION"/>
+            <result property="bSpecialty" column="B_SPECIALTY"/>
+            <result property="bBirthday" column="B_BIRTHDAY"/>
+            <result property="bPlace" column="B_PLACE"/>
+            <result property="bPhone" column="B_PHONE"/>
+            <result property="bAddress" column="B_ADDRESS"/>
+            <result property="bEmail" column="B_EMAIL"/>
+            <result property="bEbackground" column="B_EBACKGROUND"/>
+            <result property="bSkill" column="B_SKILL"/>
+            <result property="bExperience" column="B_EXPERIENCE"/>
+        </association>
+        <association property="recruitVo" resultMap="InRecruitVo"></association>
+    </resultMap>
+    <resultMap id="InRecruitVo" type="com.hrm.model.RecruitVo" extends="com.hrm.dao.RecruitVoMapper.RecruitVoMap"/>
+</mapper>

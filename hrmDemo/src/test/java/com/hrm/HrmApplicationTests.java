@@ -1,19 +1,28 @@
 package com.hrm;
 
+import com.hrm.model.Invited;
+import com.hrm.model.InvitedVo;
 import com.hrm.model.Recruit;
+import com.hrm.service.InvitedVoService;
 import com.hrm.service.RecruitService;
+import com.hrm.service.RecruitVoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class HrmApplicationTests {
     @Resource
     private RecruitService recruitService;
+    @Resource
+    private RecruitVoService recruitVoService;
+    @Resource
+    private InvitedVoService invitedVoService;
 
     @Test
     public void addRecruit() {//Recruit添加
@@ -47,6 +56,25 @@ public class HrmApplicationTests {
     @Test
     public void getPageRecruit(){//Recruit pageHelper分页查找??????????有问题！！！！！！！！！！！！！
         System.out.println(recruitService.getList(0,5));
+    }
+
+    @Test
+    public void getRecruitVos(){
+        System.out.println(recruitVoService.getRecruitVos());
+    }
+
+    @Test
+    public void getInvitedVos(){
+        Invited invited = new Invited();
+        invited.setrId(3);
+        System.out.println(invited);
+        List<InvitedVo> invitedVos = invitedVoService.getInvitedVos(invited);
+        System.out.println(invitedVos);
+        for (InvitedVo invitedVo : invitedVos) {
+            System.out.println(invitedVo.getRecruitVo().getrId());
+            System.out.println(invitedVo.getiTime());
+            System.out.println(invitedVo.getiType());
+        }
     }
 
 }

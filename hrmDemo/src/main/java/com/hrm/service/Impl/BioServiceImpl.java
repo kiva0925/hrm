@@ -35,4 +35,9 @@ public class BioServiceImpl implements BioService {
         }
         return null;
     }
+
+    @Override
+    public Bio getBio(Bio bio) {
+        return bioMapper.selectByPrimaryKey(bio.getbId());
+    }
 }

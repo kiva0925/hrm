@@ -26,15 +26,17 @@ public class TitleController {
     private DepartmentService departmentService;
     @Resource
     private DepartmentVoService departmentVoService;
-    private String sign = null;
+    private String sign_t = null;
 
     @RequestMapping("/getTitle")
-    public String getTitle(HttpSession session,Model model) throws Exception{
+    public String getTitle(HttpSession session, HttpServletResponse response) throws Exception{
         List<Department> departments = departmentService.getDepartments();
         List<DepartmentVo> departmentVos = departmentVoService.getDepartmentVos();
-        String sign = (String) session.getAttribute("sign");
-        System.out.println(sign);
-        model.addAttribute("sign",sign);
+        String sign_t = (String) session.getAttribute("sign_t");
+        if(sign_t != null){
+            response.getWriter().print("<script>alert(\""+sign_t+"\");</script>");
+        }
+        session.removeAttribute("sign_t");
         List<Title> titles = titleService.getTitles();
         session.setAttribute("departments",departments);
         session.setAttribute("departmentVos",departmentVos);
@@ -43,20 +45,20 @@ public class TitleController {
     }
 
     @RequestMapping("/addTitle")
-    public String addTitle(Title title,Model model,HttpSession session) throws Exception{
+    public String addTitle(Title title, HttpServletResponse response,HttpSession session) throws Exception{
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         String date = df.format(new Date());
         title.settCreation(date);
-        String sign = null;
+        String sign_t = null;
         int yn = titleService.addTitle(title);
         if(yn>0){
-            sign = "创建成功";
+            sign_t = "创建成功";
         }else if(yn<0){
-            sign = "该部门已有此职位";
+            sign_t = "该部门已有此职位";
         }else {
-            sign = "创建失败";
+            sign_t = "创建失败";
         }
-        session.setAttribute("sign",sign);
+        session.setAttribute("sign_t",sign_t);
         return "redirect:getTitle";
     }
 
@@ -74,15 +76,14 @@ public class TitleController {
 
     @RequestMapping("/delTitle")
     public String delTitle(Integer tId,HttpSession session) throws Exception{
-        System.out.println(tId);
         Title title = new Title();
         title.settId(tId);
         if(titleService.delTitle(title)>0){
-            sign = "删除成功";
+            sign_t = "删除成功";
         }else {
-            sign = "删除失败";
+            sign_t = "删除失败";
         }
-        session.setAttribute("sign",sign);
+        session.setAttribute("sign_t",sign_t);
         return "redirect:getTitle";
     }
 }

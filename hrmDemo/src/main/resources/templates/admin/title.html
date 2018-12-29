@@ -27,10 +27,7 @@
 
     })
 </script>
-<script th:if="${sign!=null}">
-    var sign="[[${sign}]]";
-    alert(sign);
-</script>
+
 <script th:inner="javascript">
     $(function (){
         $("#sel1").change(function() {
@@ -241,7 +238,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="">
+                    <a href="getRecruit">
                         <i class="la la-th"></i>
                         <p>招聘</p>
                         <span class="badge badge-count"></span>
