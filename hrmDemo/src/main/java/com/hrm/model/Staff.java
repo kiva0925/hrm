@@ -1,20 +1,21 @@
 package com.hrm.model;
-/*
- * 员工表
- */
+
+import java.math.BigDecimal;
 
 public class Staff {
     private Integer sId;
 
-    private String sHiredate;//入职时间
+    private String sHiredate;
 
-    private Double sCorpus;//基本薪资
+    private BigDecimal sCorpus;
 
-    private String sAttendance;//考勤时间
+    private String sAttendance;
 
-    private Integer tId;//职位id
+    private Integer tId;
 
-    private Integer bId;//简历id
+    private Integer bId;
+
+    private Integer stId;
 
     public Integer getsId() {
         return sId;
@@ -32,11 +33,11 @@ public class Staff {
         this.sHiredate = sHiredate == null ? null : sHiredate.trim();
     }
 
-    public Double getsCorpus() {
+    public BigDecimal getsCorpus() {
         return sCorpus;
     }
 
-    public void setsCorpus(Double sCorpus) {
+    public void setsCorpus(BigDecimal sCorpus) {
         this.sCorpus = sCorpus;
     }
 
@@ -62,5 +63,26 @@ public class Staff {
 
     public void setbId(Integer bId) {
         this.bId = bId;
+    }
+
+    public Integer getStId() {
+        return stId;
+    }
+
+    public void setStId(Integer stId) {
+        this.stId = stId;
+    }
+
+    @Override
+    public String toString() {
+        return "Staff{" +
+                "sId=" + sId +
+                ", sHiredate='" + sHiredate + '\'' +
+                ", sCorpus=" + sCorpus +
+                ", sAttendance='" + sAttendance + '\'' +
+                ", tId=" + tId +
+                ", bId=" + bId +
+                ", stId=" + stId +
+                '}';
     }
 }

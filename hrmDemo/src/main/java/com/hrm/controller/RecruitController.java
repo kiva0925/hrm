@@ -30,6 +30,13 @@ public class RecruitController {
     public String getRecruit(HttpSession session, HttpServletResponse response) throws Exception{
         List<DepartmentVo> departmentVos = departmentVoService.getDepartmentVos();
         List<RecruitVo> recruitVos = recruitVoService.getRecruitVos();
+        for (RecruitVo recruitVo : recruitVos) {
+            System.out.println(recruitVo.getrTheme());
+            System.out.println(recruitVo.getTitleVo().gettName());
+            System.out.println(recruitVo.getrCount());
+            System.out.println(recruitVo.getrTime());
+            System.out.println(recruitVo.getrId());
+        }
         String sign_r = (String) session.getAttribute("sign_r");
         if(sign_r != null){
             response.getWriter().print("<script>alert(\""+sign_r+"\");</script>");

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.GroomMapper" >
+  <resultMap id="BaseResultMap" type="com.hrm.model.Groom" >
+    <id column="G_ID" property="gId" jdbcType="DECIMAL" />
+    <result column="G_CONTENT" property="gContent" jdbcType="VARCHAR" />
+    <result column="G_REQUIRE" property="gRequire" jdbcType="VARCHAR" />
+    <result column="G_BEGINTIME" property="gBegintime" jdbcType="VARCHAR" />
+    <result column="G_ENDTIME" property="gEndtime" jdbcType="VARCHAR" />
+    <result column="G_TYPE" property="gType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    G_ID, G_CONTENT, G_REQUIRE, G_BEGINTIME, G_ENDTIME, G_TYPE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hrm.model.GroomExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_GROOM
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_GROOM
+    where G_ID = #{gId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_GROOM
+    where G_ID = #{gId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hrm.model.GroomExample" >
+    delete from T_GROOM
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hrm.model.Groom" >
+    insert into T_GROOM (G_ID, G_CONTENT, G_REQUIRE, 
+      G_BEGINTIME, G_ENDTIME, G_TYPE
+      )
+    values (#{gId,jdbcType=DECIMAL}, #{gContent,jdbcType=VARCHAR}, #{gRequire,jdbcType=VARCHAR}, 
+      #{gBegintime,jdbcType=VARCHAR}, #{gEndtime,jdbcType=VARCHAR}, #{gType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hrm.model.Groom" >
+    insert into T_GROOM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gId != null" >
+        G_ID,
+      </if>
+      <if test="gContent != null" >
+        G_CONTENT,
+      </if>
+      <if test="gRequire != null" >
+        G_REQUIRE,
+      </if>
+      <if test="gBegintime != null" >
+        G_BEGINTIME,
+      </if>
+      <if test="gEndtime != null" >
+        G_ENDTIME,
+      </if>
+      <if test="gType != null" >
+        G_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gId != null" >
+        #{gId,jdbcType=DECIMAL},
+      </if>
+      <if test="gContent != null" >
+        #{gContent,jdbcType=VARCHAR},
+      </if>
+      <if test="gRequire != null" >
+        #{gRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="gBegintime != null" >
+        #{gBegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="gEndtime != null" >
+        #{gEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="gType != null" >
+        #{gType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hrm.model.GroomExample" resultType="java.lang.Integer" >
+    select count(*) from T_GROOM
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_GROOM
+    <set >
+      <if test="record.gId != null" >
+        G_ID = #{record.gId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gContent != null" >
+        G_CONTENT = #{record.gContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gRequire != null" >
+        G_REQUIRE = #{record.gRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gBegintime != null" >
+        G_BEGINTIME = #{record.gBegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gEndtime != null" >
+        G_ENDTIME = #{record.gEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gType != null" >
+        G_TYPE = #{record.gType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_GROOM
+    set G_ID = #{record.gId,jdbcType=DECIMAL},
+      G_CONTENT = #{record.gContent,jdbcType=VARCHAR},
+      G_REQUIRE = #{record.gRequire,jdbcType=VARCHAR},
+      G_BEGINTIME = #{record.gBegintime,jdbcType=VARCHAR},
+      G_ENDTIME = #{record.gEndtime,jdbcType=VARCHAR},
+      G_TYPE = #{record.gType,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.model.Groom" >
+    update T_GROOM
+    <set >
+      <if test="gContent != null" >
+        G_CONTENT = #{gContent,jdbcType=VARCHAR},
+      </if>
+      <if test="gRequire != null" >
+        G_REQUIRE = #{gRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="gBegintime != null" >
+        G_BEGINTIME = #{gBegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="gEndtime != null" >
+        G_ENDTIME = #{gEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="gType != null" >
+        G_TYPE = #{gType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where G_ID = #{gId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.model.Groom" >
+    update T_GROOM
+    set G_CONTENT = #{gContent,jdbcType=VARCHAR},
+      G_REQUIRE = #{gRequire,jdbcType=VARCHAR},
+      G_BEGINTIME = #{gBegintime,jdbcType=VARCHAR},
+      G_ENDTIME = #{gEndtime,jdbcType=VARCHAR},
+      G_TYPE = #{gType,jdbcType=VARCHAR}
+    where G_ID = #{gId,jdbcType=DECIMAL}
+  </update>
+</mapper>

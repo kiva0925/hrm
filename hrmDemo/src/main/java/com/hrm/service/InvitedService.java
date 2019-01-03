@@ -5,4 +5,5 @@ import com.hrm.model.Invited;
 public interface InvitedService {
     int addInvited(Invited invited);
     int updateInvited(Invited invited);
+    int deleteInvited(Invited invited);
 }

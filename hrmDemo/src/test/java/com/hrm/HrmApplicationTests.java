@@ -1,11 +1,7 @@
 package com.hrm;
 
-import com.hrm.model.Invited;
-import com.hrm.model.InvitedVo;
-import com.hrm.model.Recruit;
-import com.hrm.service.InvitedVoService;
-import com.hrm.service.RecruitService;
-import com.hrm.service.RecruitVoService;
+import com.hrm.model.*;
+import com.hrm.service.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +19,14 @@ public class HrmApplicationTests {
     private RecruitVoService recruitVoService;
     @Resource
     private InvitedVoService invitedVoService;
+    @Resource
+    private TitleVoService titleVoService;
+    @Resource
+    private StaffVoService staffVoService;
+    @Resource
+    private ManageVoService manageVoService;
+    @Resource
+    private GroomService groomService;
 
     @Test
     public void addRecruit() {//Recruit添加
@@ -60,21 +64,60 @@ public class HrmApplicationTests {
 
     @Test
     public void getRecruitVos(){
-        System.out.println(recruitVoService.getRecruitVos());
+        List<RecruitVo> recruitVos = recruitVoService.getRecruitVos();
+        System.out.println(recruitVos);
     }
 
     @Test
     public void getInvitedVos(){
         Invited invited = new Invited();
-        invited.setrId(3);
-        System.out.println(invited);
+        //invited.setrId(1);
+        invited.setuId(3);
         List<InvitedVo> invitedVos = invitedVoService.getInvitedVos(invited);
         System.out.println(invitedVos);
         for (InvitedVo invitedVo : invitedVos) {
-            System.out.println(invitedVo.getRecruitVo().getrId());
-            System.out.println(invitedVo.getiTime());
-            System.out.println(invitedVo.getiType());
+            System.out.println(invitedVo.getBio().getbName());
+            System.out.println(invitedVo.getRecruitVo().getTitleVo().getDepartment().getdName());
+            System.out.println(invitedVo.getRecruitVo().getTitleVo().gettName());
         }
+    }
+
+    @Test
+    public void getTitleVos(){//【通过did】查询全部带有部门的职务
+        Department department = new Department();
+        department.setdId(12);
+        List<TitleVo> titleVos = titleVoService.getTitleVos(department);
+        System.out.println(titleVos);
+    }
+
+    @Test
+    public void getTitleVo(){//通过tid查询带有部门的职务
+        TitleVo title = new TitleVo();//有点问题，传的TitleVo中，tid不能为null
+        title.settId(1);
+        TitleVo titleVo = titleVoService.getTitleVo(title);
+        System.out.println(titleVo);
+    }
+
+    @Test
+    public void getStaffVos(){//待考察
+        StaffVo staffVo = new StaffVo();
+        //staffVo.setsId(1);
+        List<StaffVo> staffVos = staffVoService.getStaffVos(staffVo);
+        System.out.println(staffVos);
+    }
+
+    @Test
+    public void getManageVos(){//通过培训管理表，查询出某个培训的员工【或】某个员工的培训
+        ManageVo manageVo = new ManageVo();
+        manageVo.setgId(1);
+        List<ManageVo> mVo = manageVoService.getManageVo(manageVo);
+        System.out.println(mVo);
+    }
+
+    @Test
+    public void getGrooms(){
+        List<Groom> grooms = groomService.getGrooms();
+        System.out.println(grooms);
     }
 
 }

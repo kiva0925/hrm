@@ -216,9 +216,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="">
+                    <a href="getStaff">
                         <i class="la la-th"></i>
                         <p>员工</p>
+                        <span class="badge badge-count"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="getGroom">
+                        <i class="la la-th"></i>
+                        <p>培训</p>
                         <span class="badge badge-count"></span>
                     </a>
                 </li>
@@ -297,12 +304,12 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="t:${session.recruitVos}">
-                                        <td><span th:text="${t.rTheme}"></span></td>
-                                        <td><span th:text="${t.title.tName}"></span></td>
-                                        <td><span th:text="${t.rCount}"></span></td>
-                                        <td><span th:text="${t.rTime}"></span></td>
-                                        <td><a th:href="@{/inter(rId=${t.rId})}">
+                                    <tr th:each="r:${session.recruitVos}">
+                                        <td><span th:text="${r.rTheme}"></span></td>
+                                        <td><span th:text="${r.titleVo.tName}"></span></td>
+                                        <td><span th:text="${r.rCount}"></span></td>
+                                        <td><span th:text="${r.rTime}"></span></td>
+                                        <td><a th:href="@{/inter(rId=${r.rId})}">
                                             <button class="btn btn-info btn-sm">查看</button>
                                         </a></td>
                                         <td><button class="btn btn-success btn-sm">撤销</button></td>
@@ -313,32 +320,6 @@
                         </div>
                     </div>
                 </div>
-
-            <footer class="footer">
-                <div class="container-fluid">
-                    <nav class="pull-left">
-                        <ul class="nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    ThemeKita
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Help
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Licenses
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="copyright ml-auto">
-                        2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">ThemeKita</a> - More Templates <a href="#" target="_blank"></a> - Collect from <a href="#" target="_blank"></a></div>
-                </div>
-            </footer>
 
             </div>
         </div>

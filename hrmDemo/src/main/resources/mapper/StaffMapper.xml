@@ -8,6 +8,7 @@
     <result column="S_ATTENDANCE" property="sAttendance" jdbcType="VARCHAR" />
     <result column="T_ID" property="tId" jdbcType="DECIMAL" />
     <result column="B_ID" property="bId" jdbcType="DECIMAL" />
+    <result column="ST_ID" property="stId" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    S_ID, S_HIREDATE, S_CORPUS, S_ATTENDANCE, T_ID, B_ID
+    S_ID, S_HIREDATE, S_CORPUS, S_ATTENDANCE, T_ID, B_ID, ST_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hrm.model.StaffExample" >
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="com.hrm.model.Staff" >
     insert into T_STAFF (S_ID, S_HIREDATE, S_CORPUS, 
-      S_ATTENDANCE, T_ID, B_ID
-      )
+      S_ATTENDANCE, T_ID, B_ID, 
+      ST_ID)
     values (#{sId,jdbcType=DECIMAL}, #{sHiredate,jdbcType=VARCHAR}, #{sCorpus,jdbcType=DECIMAL}, 
-      #{sAttendance,jdbcType=VARCHAR}, #{tId,jdbcType=DECIMAL}, #{bId,jdbcType=DECIMAL}
-      )
+      #{sAttendance,jdbcType=VARCHAR}, #{tId,jdbcType=DECIMAL}, #{bId,jdbcType=DECIMAL}, 
+      #{stId,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.hrm.model.Staff" >
     insert into T_STAFF
@@ -129,6 +130,9 @@
       <if test="bId != null" >
         B_ID,
       </if>
+      <if test="stId != null" >
+        ST_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="sId != null" >
@@ -148,6 +152,9 @@
       </if>
       <if test="bId != null" >
         #{bId,jdbcType=DECIMAL},
+      </if>
+      <if test="stId != null" >
+        #{stId,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.bId != null" >
         B_ID = #{record.bId,jdbcType=DECIMAL},
       </if>
+      <if test="record.stId != null" >
+        ST_ID = #{record.stId,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       S_CORPUS = #{record.sCorpus,jdbcType=DECIMAL},
       S_ATTENDANCE = #{record.sAttendance,jdbcType=VARCHAR},
       T_ID = #{record.tId,jdbcType=DECIMAL},
-      B_ID = #{record.bId,jdbcType=DECIMAL}
+      B_ID = #{record.bId,jdbcType=DECIMAL},
+      ST_ID = #{record.stId,jdbcType=DECIMAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="bId != null" >
         B_ID = #{bId,jdbcType=DECIMAL},
       </if>
+      <if test="stId != null" >
+        ST_ID = #{stId,jdbcType=DECIMAL},
+      </if>
     </set>
     where S_ID = #{sId,jdbcType=DECIMAL}
   </update>
@@ -222,7 +236,8 @@
       S_CORPUS = #{sCorpus,jdbcType=DECIMAL},
       S_ATTENDANCE = #{sAttendance,jdbcType=VARCHAR},
       T_ID = #{tId,jdbcType=DECIMAL},
-      B_ID = #{bId,jdbcType=DECIMAL}
+      B_ID = #{bId,jdbcType=DECIMAL},
+      ST_ID = #{stId,jdbcType=DECIMAL}
     where S_ID = #{sId,jdbcType=DECIMAL}
   </update>
 </mapper>

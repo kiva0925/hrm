@@ -31,4 +31,9 @@ public class InvitedServiceImpl implements InvitedService {
     public int updateInvited(Invited invited) {
         return invitedMapper.updateByPrimaryKeySelective(invited);
     }
+
+    @Override
+    public int deleteInvited(Invited invited) {
+        return invitedMapper.deleteByPrimaryKey(invited.getiId());
+    }
 }

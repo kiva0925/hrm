@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.ManageVoMapper">
+    <select id="getManageVo" resultMap="ManageVoMap">
+        select T_STAFF.S_ID, S_HIREDATE, S_CORPUS, S_ATTENDANCE,T_STYPE.ST_ID,ST_CASE,
+        T_GROOM.G_ID, G_CONTENT, G_REQUIRE, G_BEGINTIME, G_ENDTIME
+        from T_MANAGE,T_STAFF,T_GROOM,T_STYPE
+        where T_MANAGE.G_ID=T_GROOM.G_ID
+        and T_MANAGE.S_ID=T_STAFF.S_ID
+        and T_STAFF.ST_ID=T_STYPE.ST_ID
+        <choose>
+            <when test="sId!=null">
+                and T_MANAGE.S_ID = #{sId}
+            </when>
+            <when test="gId!=null">
+                and T_MANAGE.G_ID = #{gId}
+            </when>
+        </choose>
+    </select>
+    <resultMap id="ManageVoMap" extends="com.hrm.dao.ManageMapper.BaseResultMap" type="com.hrm.model.ManageVo">
+        <association property="staffVo" resultMap="InStaffVo"></association>
+        <association property="groom" resultMap="InGroom"></association>
+    </resultMap>
+    <resultMap id="InStaffVo" type="com.hrm.model.StaffVo" extends="com.hrm.dao.StaffVoMapper.StaffVoMap"/>
+    <resultMap id="InGroom" type="com.hrm.model.Groom" extends="com.hrm.dao.GroomMapper.BaseResultMap"/>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.StaffVoMapper">
+    <select id="getStaffVos" resultMap="StaffVoMap">
+        select S_ID, S_HIREDATE, S_CORPUS, S_ATTENDANCE,T_STYPE.ST_ID,ST_CASE,
+        T_STAFF.T_ID,T_NAME,T_CREATION,T_DEPARTMENT.D_ID,D_NAME,D_CREATION,
+        T_STAFF.B_ID, B_NAME, B_SEX, B_SCHOOLTAG, B_EDUCATION, B_SPECIALTY, B_BIRTHDAY, B_PLACE,
+    B_PHONE, B_ADDRESS, B_EMAIL, B_EBACKGROUND, B_SKILL, B_EXPERIENCE, U_ID
+        from T_STAFF,T_TITLE,T_DEPARTMENT,T_BIO,T_STYPE
+        where T_STAFF.T_ID = T_TITLE.T_ID
+        and T_TITLE.D_ID=T_DEPARTMENT.D_ID
+        and T_STAFF.B_ID=T_BIO.B_ID
+        and T_STAFF.ST_ID=T_STYPE.ST_ID
+        <choose>
+            <when test="sId!=null">
+                and S_ID = #{sId}
+            </when>
+            <when test="tId!=null">
+                and T_STAFF.T_ID = #{tId}
+            </when>
+            <when test="titleVo!=null">
+                and T_TITLE.D_ID = #{titleVo.dId}
+            </when>
+        </choose>
+    </select>
+    <resultMap id="StaffVoMap" extends="com.hrm.dao.StaffMapper.BaseResultMap" type="com.hrm.model.StaffVo">
+        <association property="stype" javaType="com.hrm.model.Stype">
+            <id property="stId" column="ST_ID"/>
+            <result property="stCase" column="ST_CASE"/>
+        </association>
+        <association property="titleVo" resultMap="InTittleVo"></association>
+        <association property="bio" resultMap="InBio"></association>
+    </resultMap>
+    <resultMap id="InTittleVo" type="com.hrm.model.TitleVo" extends="com.hrm.dao.TitleVoMapper.TitleVoMap"/>
+    <resultMap id="InBio" type="com.hrm.model.Bio" extends="com.hrm.dao.BioMapper.BaseResultMap"/>
+</mapper>

@@ -484,6 +484,66 @@ public class StaffExample {
             addCriterion("B_ID not between", value1, value2, "bId");
             return (Criteria) this;
         }
+
+        public Criteria andStIdIsNull() {
+            addCriterion("ST_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdIsNotNull() {
+            addCriterion("ST_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdEqualTo(Integer value) {
+            addCriterion("ST_ID =", value, "stId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdNotEqualTo(Integer value) {
+            addCriterion("ST_ID <>", value, "stId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdGreaterThan(Integer value) {
+            addCriterion("ST_ID >", value, "stId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ST_ID >=", value, "stId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdLessThan(Integer value) {
+            addCriterion("ST_ID <", value, "stId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ST_ID <=", value, "stId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdIn(List<Integer> values) {
+            addCriterion("ST_ID in", values, "stId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdNotIn(List<Integer> values) {
+            addCriterion("ST_ID not in", values, "stId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdBetween(Integer value1, Integer value2) {
+            addCriterion("ST_ID between", value1, value2, "stId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ST_ID not between", value1, value2, "stId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

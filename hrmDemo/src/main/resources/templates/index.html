@@ -31,9 +31,9 @@
                     <li><a href="/getBio">我的简历</a></li>
                     <li class="menu-has-children"><a href="#">我的信箱</a>
                         <ul>
-                            <li><a href="">已查看</a></li>
-                            <li><a href="">未查看</a></li>
-                            <li><a href="">全部</a></li>
+                            <li><a href="giveJob">我的面试情况</a></li>
+                            <li><a href="#">我的员工信息</a></li>
+                            <li><a href="#">全部</a></li>
                         </ul>
                     </li>
                     <li th:if="${session.user==null}"><a class="ticker-btn" href="get">Sign</a></li>
@@ -145,8 +145,8 @@
                         <a class="btns text-uppercase" th:href="@{/recruitment(rId=${t.rId})}">view job post</a>
                     </div>
                     <div class="details">
-                        <a href="#"><h4 th:text="${t.title.tName}"></h4></a>
-                        <h6 th:text="${t.title.tName}"></h6>
+                        <a href="#"><h4 th:text="${t.titleVo.tName}"></h4></a>
+                        <h6 th:text="${t.titleVo.tName}"></h6>
                         <p th:text="${t.rContent}"></p>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                         <img src="img/post.png" alt="">
                         <ul class="tags">
                             <li>
-                                <a href="#"><span th:text="${t.title.tName}"></span></a>
+                                <a href="#"><span th:text="${t.titleVo.tName}"></span></a>
                             </li>
                         </ul>
                     </div>

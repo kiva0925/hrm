@@ -39,7 +39,10 @@
         <table tableName="t_department" domainObjectName="Department"/>
         <table tableName="t_title" domainObjectName="Title"/>
         <table tableName="t_bio" domainObjectName="Bio"/>
-        <table tableName="t_recruit" domainObjectName="Recruit"/>-->
+        <table tableName="t_recruit" domainObjectName="Recruit"/>
         <table tableName="t_invited" domainObjectName="Invited"/>
+        <table tableName="t_staff" domainObjectName="Staff"/>-->
+        <table tableName="t_groom" domainObjectName="Groom"/>
+        <!--<table tableName="t_manage" domainObjectName="Manage"/>-->
     </context>
 </generatorConfiguration>

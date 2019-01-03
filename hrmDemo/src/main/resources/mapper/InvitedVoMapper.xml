@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hrm.dao.InvitedVoMapper">
-    <select id="getInvitedVos" resultMap="InvitedVoMap">
+    <select id="getInvitedVos" resultMap="InvitedVoMap" parameterType="com.hrm.model.InvitedVo">
         select T_INVITED.I_ID, I_TIME, I_TYPE,
-        T_RECRUIT.R_ID, R_THEME, R_CONTENT, R_REQUIRE, R_COUNT, R_TIME,T_RECRUIT.T_ID,T_NAME,
+        T_RECRUIT.R_ID, R_THEME, R_CONTENT, R_REQUIRE, R_COUNT, R_TIME,T_RECRUIT.T_ID,T_NAME,T_DEPARTMENT.D_ID,D_NAME,
         T_INVITED.U_ID, U_NAME, U_PASS, U_TYPE,
         T_INVITED.B_ID, B_NAME, B_SEX, B_SCHOOLTAG, B_EDUCATION, B_SPECIALTY, B_BIRTHDAY, B_PLACE,
     B_PHONE, B_ADDRESS, B_EMAIL, B_EBACKGROUND, B_SKILL, B_EXPERIENCE
-        from T_INVITED,T_RECRUIT,T_BIO,T_USER,T_TITLE
+        from T_INVITED,T_RECRUIT,T_BIO,T_USER,T_TITLE,T_DEPARTMENT
         where T_INVITED.U_ID = T_USER.U_ID
         and T_INVITED.R_ID = T_RECRUIT.R_ID
         and T_INVITED.B_ID = T_BIO.B_ID
         and T_RECRUIT.T_ID = T_TITLE.T_ID
+        and T_TITLE.D_ID = T_DEPARTMENT.D_ID
         <if test="rId!=null">
             and T_INVITED.R_ID = #{rId}
+        </if>
+        <!--<if test="recruitVo!=null">
+            <if test="recruitVo.rId!=null">
+                and T_INVITED.R_ID = #{recruitVo.rId}
+            </if>
+            <if test="recruitVo.titleVo!=null">
+                <if test="recruitVo.titleVo.tId!=null">
+                    and T_RECRUIT.T_ID = #{recruitVo.titleVo.tId}
+                </if>
+                <if test="recruitVo.titleVo.department!=null">
+                    <if test="recruitVo.titleVo.department.dId!=null">
+                        and T_DEPARTMENT.D_ID = #{recruitVo.titleVo.department.dId}
+                    </if>
+                </if>
+            </if>
+        </if>-->
+        <if test="uId!=null">
+            and T_INVITED.U_ID = #{uId}
+        </if>
+        <if test="iType!=null">
+            and I_TYPE = #{iType}
         </if>
     </select>
     <resultMap id="InvitedVoMap" extends="com.hrm.dao.InvitedMapper.BaseResultMap" type="com.hrm.model.InvitedVo">

@@ -2,14 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hrm.dao.RecruitVoMapper">
     <select id="getRecruitVos" resultMap="RecruitVoMap">
-        select T_RECRUIT.R_ID, R_THEME, R_CONTENT, R_REQUIRE, R_COUNT, R_TIME,T_NAME
-        from T_RECRUIT,T_TITLE
+        select T_RECRUIT.R_ID, R_THEME, R_CONTENT, R_REQUIRE, R_COUNT, R_TIME,T_NAME,T_DEPARTMENT.D_ID,D_NAME
+        from T_RECRUIT,T_TITLE,T_DEPARTMENT
         where T_RECRUIT.T_ID = T_TITLE.T_ID
+        and T_TITLE.D_ID = T_DEPARTMENT.D_ID
     </select>
     <resultMap id="RecruitVoMap" extends="com.hrm.dao.RecruitMapper.BaseResultMap" type="com.hrm.model.RecruitVo">
-        <association property="title" javaType="com.hrm.model.Title">
-            <id property="tId" column="T_ID"/>
-            <result property="tName" column="T_NAME"/>
-        </association>
+        <association property="titleVo" resultMap="InTitleVo"></association>
     </resultMap>
+    <resultMap id="InTitleVo" type="com.hrm.model.TitleVo" extends="com.hrm.dao.TitleVoMapper.TitleVoMap"/>
 </mapper>

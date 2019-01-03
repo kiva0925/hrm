@@ -23,4 +23,12 @@ public class Stype {
     public void setStCase(String stCase) {
         this.stCase = stCase == null ? null : stCase.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Stype{" +
+                "stId=" + stId +
+                ", stCase='" + stCase + '\'' +
+                '}';
+    }
 }

@@ -2,14 +2,14 @@ package com.hrm.model;
 
 public class RecruitVo extends Recruit{
 
-    private Title title;//职务
+    private TitleVo titleVo;//职务
 
-    public Title getTitle() {
-        return title;
+    public TitleVo getTitleVo() {
+        return titleVo;
     }
 
-    public void setTitle(Title title) {
-        this.title = title;
+    public void setTitleVo(TitleVo titleVo) {
+        this.titleVo = titleVo;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class RecruitVo extends Recruit{
                 ", rRequire='" + this.getrRequire() + '\'' +
                 ", rCount=" + this.getrCount() +
                 ", rTime='" + this.getrTime() + '\'' +
-                ", title=" + title +
+                ", titleVo=" + titleVo +
                 '}';
     }
 }

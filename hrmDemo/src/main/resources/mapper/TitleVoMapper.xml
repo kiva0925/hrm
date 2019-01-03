@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.TitleVoMapper">
+    <select id="getTitleVos" resultMap="TitleVoMap">
+        select T_ID,T_NAME,T_CREATION,T_DEPARTMENT.D_ID,D_NAME,D_CREATION
+        from T_TITLE,T_DEPARTMENT
+        where T_TITLE.D_ID=T_DEPARTMENT.D_ID
+        <if test="dId!=null">
+            and T_TITLE.D_ID = #{dId}
+        </if>
+    </select>
+    <select id="getTitleVo" resultMap="TitleVoMap">
+        select T_ID,T_NAME,T_CREATION,T_DEPARTMENT.D_ID,D_NAME,D_CREATION
+        from T_TITLE,T_DEPARTMENT
+        where T_TITLE.D_ID=T_DEPARTMENT.D_ID
+        and T_ID = #{tId}
+    </select>
+    <resultMap id="TitleVoMap" extends="com.hrm.dao.TitleMapper.BaseResultMap" type="com.hrm.model.TitleVo">
+        <association property="department" javaType="com.hrm.model.Department">
+            <id property="dId" column="D_ID"/>
+            <result property="dName" column="D_NAME"/>
+            <result property="dCreation" column="D_CREATION"/>
+        </association>
+    </resultMap>
+</mapper>
