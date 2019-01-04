@@ -8,6 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import javax.xml.crypto.Data;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -27,6 +32,8 @@ public class HrmApplicationTests {
     private ManageVoService manageVoService;
     @Resource
     private GroomService groomService;
+    @Resource
+    private ClockVoService clockVoService;
 
     @Test
     public void addRecruit() {//Recruit添加
@@ -118,6 +125,31 @@ public class HrmApplicationTests {
     public void getGrooms(){
         List<Groom> grooms = groomService.getGrooms();
         System.out.println(grooms);
+    }
+
+    @Test
+    public void getClockVos() throws ParseException {
+        Clock clock = new Clock();
+        clock.setsId(4);
+        Date date = new Date();
+        Date date1 = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-");
+        String dateNowStr = sdf.format(date);
+        List<ClockVo> clockVos = clockVoService.getClockVos(clock);
+        List<String> lDate = new ArrayList<>();
+        if(clockVos.size()>0){
+            for (int i = clockVos.size()-1; i >= 0; i--) {
+                System.out.println(dateNowStr.equals(clockVos.get(i).getcData().substring(0,8)));
+                if(!dateNowStr.equals(clockVos.get(i).getcData().substring(0,8))){
+                    clockVos.remove(i);
+                }
+            }
+            for (int i = 0; i < clockVos.size(); i++) {
+                SimpleDateFormat newSdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date parse = newSdf.parse(clockVos.get(i).getcData());
+                lDate.add(parse.getTime()/1000+"");
+            }
+        }
     }
 
 }

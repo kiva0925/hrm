@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.ClockVoMapper">
+    <select id="getClockVos" resultMap="ClockVoMap">
+        select  C_ID, C_DATA, C_ONDUTY, C_OFFDUTY,
+        T_ATTENDANCE.A_ID, A_TYPE, A_SUM,
+        T_STAFF.S_ID, S_HIREDATE, S_CORPUS, S_ATTENDANCE
+        from T_CLOCK,T_ATTENDANCE,T_STAFF
+        where T_CLOCK.S_ID=T_STAFF.S_ID
+        and T_CLOCK.A_ID=T_ATTENDANCE.A_ID
+        <choose>
+            <when test="sId!=null">
+                and T_CLOCK.S_ID = #{sId}
+            </when>
+            <when test="cData!=null">
+                and C_DATA=#{cData}
+            </when>
+        </choose>
+    </select>
+    <resultMap id="ClockVoMap" extends="com.hrm.dao.ClockMapper.BaseResultMap" type="com.hrm.model.ClockVo">
+        <association property="staffVo" resultMap="InStaffVo"></association>
+        <association property="attendance" resultMap="InAttendance"></association>
+    </resultMap>
+    <resultMap id="InStaffVo" type="com.hrm.model.StaffVo" extends="com.hrm.dao.StaffVoMapper.StaffVoMap"/>
+    <resultMap id="InAttendance" type="com.hrm.model.Attendance" extends="com.hrm.dao.AttendanceMapper.BaseResultMap"/>
+</mapper>

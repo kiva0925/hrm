@@ -41,8 +41,10 @@
         <table tableName="t_bio" domainObjectName="Bio"/>
         <table tableName="t_recruit" domainObjectName="Recruit"/>
         <table tableName="t_invited" domainObjectName="Invited"/>
-        <table tableName="t_staff" domainObjectName="Staff"/>-->
+        <table tableName="t_staff" domainObjectName="Staff"/>
         <table tableName="t_groom" domainObjectName="Groom"/>
-        <!--<table tableName="t_manage" domainObjectName="Manage"/>-->
+        <table tableName="t_manage" domainObjectName="Manage"/>-->
+        <table tableName="t_attendance" domainObjectName="Attendance"/>
+        <table tableName="t_clock" domainObjectName="Clock"/>
     </context>
 </generatorConfiguration>

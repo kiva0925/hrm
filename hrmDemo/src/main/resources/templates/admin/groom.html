@@ -262,12 +262,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label>选择部门</label>
-                                        <div class="form-check">
-                                            <label class="form-check-label" th:each="s:${session.staffVos}">
+                                        <div class="form-check"><!--有问题-->
+                                            <!--<label class="form-check-label" th:each="s:${session.staffVos}">
                                                 <input class="form-check-input task-select" type="checkbox" name="staffs" th:value="${s.sId}">
-                                                <span class="form-check-sign" th:text="${s.titleVo.department.dName}"></span>--
-                                                <span class="form-check-sign" th:text="${s.bio.bName}"></span>
-                                            </label>
+                                            </label>-->
                                         </div>
                                     </div>
                                     <div class="form-group">

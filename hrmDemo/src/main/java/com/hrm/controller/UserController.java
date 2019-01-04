@@ -63,6 +63,8 @@ public class UserController {
             session.setAttribute("user",user1);
             if(user1.getuType() == 0){//管理员登陆
                 return "redirect:depart";
+            }else if(user1.getuType() == 2){//员工登陆
+                return "redirect:employees";
             }
             return "index";
         }
