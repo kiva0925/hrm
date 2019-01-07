@@ -146,19 +146,36 @@
         var h=dt.getHours();
         var min=dt.getMinutes();
         var s=dt.getSeconds();
+        var stime = "[[${session.staffVo.sAttendance}]]"
+        arr=stime.split(" - ");
         if(isSign == false) {
             var res = cale.SignIn();
             if(res == '1') {
-                $$("sign-txt").innerHTML = '下班打卡';
-                $$("sign-count").innerHTML = parseInt($$("sign-count").innerHTML) + 1;
                 $.ajax({
                     type:"post",
-                    url:"punch",
-                    data:"cOnDuty="+h + ":" + min + ":" + s + "",
+                    url:"onPunch",
+                    dataType: 'json',
+                    data:{cOnduty:h + ":" + min + ":" + s + ""
+                        ,sId:"[[${session.staffVo.sId}]]"
+                        ,punch:arr[0]},
                     success:function (obj) {
                     }
                 })
+                $$("sign-txt").innerHTML = '下班打卡';
+                $$("sign-count").innerHTML = parseInt($$("sign-count").innerHTML) + 1;
             } else if (res == '2') {
+                $.ajax({
+                    type:"post",
+                    url:"offPunch",
+                    dataType: 'json',
+                    data:{cOffduty:h + ":" + min + ":" + s + ""
+                        ,sId:"[[${session.staffVo.sId}]]"
+                        ,cData:"[[${session.clockVo.cData}]]"
+                        ,cId:"[[${session.clockVo.cId}]]"
+                        ,punch:arr[1]},
+                    success:function (obj) {
+                    }
+                })
                 $$("sign-txt").innerHTML = '已签到';
                 alert('今天打卡完成')
                 isSign = true;
@@ -193,9 +210,9 @@
         var on_duty = Number(arr[0].substr(0,2))
         var off_duty = Number(arr[1].substr(0,2))
         if (h>=(on_duty-1)&&h<=(on_duty+1)&&"[[${session.clockVo.cData}]]"==""){//打卡时间范围
-            isSign = false
+            isSign = false//上班时间范围
         } else if (h>=(off_duty-1)&&h<=(off_duty+5)&&"[[${session.clockVo.cData}]]"!="") {
-            isSign = false
+            isSign = false//下班时间范围
         }else {
             isSign = true
         }

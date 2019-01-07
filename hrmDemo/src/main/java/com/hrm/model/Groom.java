@@ -1,4 +1,7 @@
 package com.hrm.model;
+/*
+ * 培训表
+ */
 
 public class Groom {
     private Integer gId;//培训id

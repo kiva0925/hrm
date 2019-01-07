@@ -1,16 +1,11 @@
 package com.hrm.controller;
 
-import com.hrm.model.Clock;
-import com.hrm.model.ClockVo;
-import com.hrm.model.StaffVo;
-import com.hrm.model.User;
-import com.hrm.service.ClockVoService;
-import com.hrm.service.GroomService;
-import com.hrm.service.StaffService;
-import com.hrm.service.StaffVoService;
+import com.hrm.model.*;
+import com.hrm.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +25,10 @@ public class GroomController {
     private GroomService groomService;
     @Resource
     private ClockVoService clockVoService;
+    @Resource
+    private ClockService clockService;
+    @Resource
+    private ManageVoService manageVoService;
 
     @RequestMapping("/employees")
     public String employees(HttpSession session, Model model, HttpServletResponse response) throws Exception{
@@ -37,8 +36,14 @@ public class GroomController {
         StaffVo staffVo = new StaffVo();
         staffVo.setsId(Integer.parseInt(user.getuName()));
         List<StaffVo> staffVos = staffVoService.getStaffVos(staffVo);
+        ManageVo manageVo = new ManageVo();
         if(staffVos.size()>0){
             session.setAttribute("staffVo",staffVos.get(0));
+            manageVo.setsId(staffVos.get(0).getsId());
+        }
+        List<ManageVo> manageVos = manageVoService.getManageVo(manageVo);
+        if(manageVos.size()>0){
+            session.setAttribute("manageVos",manageVos);
         }
         return "employee/homepage";
     }
@@ -75,8 +80,19 @@ public class GroomController {
         return "employee/punch";
     }
 
-    @RequestMapping("/punch")
-    public void punch(String cOnDuty, HttpSession session, HttpServletResponse response) throws Exception{
-        System.out.println(cOnDuty);
+    @ResponseBody
+    @RequestMapping("/onPunch")
+    public void onPunch(Clock clock,String punch,HttpSession session) throws Exception{
+        StaffVo staffVo = (StaffVo) session.getAttribute("staffVo");
+        clockService.addClock(clock,punch,staffVo);
+    }
+
+    @ResponseBody
+    @RequestMapping("/offPunch")
+    public void offPunch(HttpSession session,Clock clock,String punch) throws Exception{
+        ClockVo clockVo = (ClockVo) session.getAttribute("clockVo");
+        clock.setaId(clockVo.getAttendance().getaId());
+        System.out.println(clock);
+        clockService.updateClock(clock,punch,clockVo.getStaffVo());
     }
 }

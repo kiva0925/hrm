@@ -116,7 +116,8 @@ public class HrmApplicationTests {
     @Test
     public void getManageVos(){//通过培训管理表，查询出某个培训的员工【或】某个员工的培训
         ManageVo manageVo = new ManageVo();
-        manageVo.setgId(1);
+        //manageVo.setgId(1);
+        manageVo.setsId(4);
         List<ManageVo> mVo = manageVoService.getManageVo(manageVo);
         System.out.println(mVo);
     }

@@ -1,4 +1,7 @@
 package com.hrm.model;
+/*
+ * 员工培训表
+ */
 
 public class Manage {
     private Integer mId;

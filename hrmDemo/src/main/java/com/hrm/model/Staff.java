@@ -1,13 +1,11 @@
 package com.hrm.model;
 
-import java.math.BigDecimal;
-
 public class Staff {
     private Integer sId;
 
     private String sHiredate;
 
-    private BigDecimal sCorpus;
+    private Double sCorpus;
 
     private String sAttendance;
 
@@ -33,11 +31,11 @@ public class Staff {
         this.sHiredate = sHiredate == null ? null : sHiredate.trim();
     }
 
-    public BigDecimal getsCorpus() {
+    public Double getsCorpus() {
         return sCorpus;
     }
 
-    public void setsCorpus(BigDecimal sCorpus) {
+    public void setsCorpus(Double sCorpus) {
         this.sCorpus = sCorpus;
     }
 
