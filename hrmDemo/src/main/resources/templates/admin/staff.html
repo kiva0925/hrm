@@ -279,7 +279,14 @@
                                         <td><span th:text="${s.titleVo.tName}"></span></td>
                                         <td><span th:text="${s.sCorpus}"></span></td>
                                         <td><span th:text="${s.stype.stCase}"></span></td>
-                                        <td><button class="btn btn-success btn-sm">查看</button></td>
+                                        <td>
+                                            <a th:href="@{/personnel(sId=${s.sId})}">
+                                                <button class="btn btn-success btn-sm">查看</button>
+                                            </a>
+                                            <a th:href="@{/relieve_guard(sId=${s.sId})}">
+                                                <button class="btn btn-info btn-sm">调岗</button>
+                                            </a>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

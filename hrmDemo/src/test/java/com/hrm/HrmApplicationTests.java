@@ -34,6 +34,8 @@ public class HrmApplicationTests {
     private GroomService groomService;
     @Resource
     private ClockVoService clockVoService;
+    @Resource
+    private EarningsService earningsService;
 
     @Test
     public void addRecruit() {//Recruit添加
@@ -151,6 +153,14 @@ public class HrmApplicationTests {
                 lDate.add(parse.getTime()/1000+"");
             }
         }
+    }
+
+    @Test
+    public void getEarnings() throws ParseException{
+        Earnings earnings = new Earnings();
+        earnings.setsId(4);
+        List<Earnings> earnings1 = earningsService.getEarnings(earnings);
+        System.out.println(earnings1);
     }
 
 }

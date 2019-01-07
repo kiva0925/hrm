@@ -45,7 +45,9 @@
         <table tableName="t_groom" domainObjectName="Groom"/>
         <table tableName="t_manage" domainObjectName="Manage"/>
         <table tableName="t_attendance" domainObjectName="Attendance"/>
-        <table tableName="t_clock" domainObjectName="Clock"/>-->
+        <table tableName="t_clock" domainObjectName="Clock"/>
         <table tableName="t_prize" domainObjectName="Prize"/>
+        <table tableName="t_quit" domainObjectName="Quit"/>-->
+        <table tableName="t_earnings" domainObjectName="Earnings"/>
     </context>
 </generatorConfiguration>

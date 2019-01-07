@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.QuitMapper" >
+  <resultMap id="BaseResultMap" type="com.hrm.model.Quit" >
+    <id column="Q_ID" property="qId" jdbcType="DECIMAL" />
+    <result column="Q_CAUSE" property="qCause" jdbcType="VARCHAR" />
+    <result column="Q_TIME" property="qTime" jdbcType="VARCHAR" />
+    <result column="S_ID" property="sId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Q_ID, Q_CAUSE, Q_TIME, S_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hrm.model.QuitExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_QUIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_QUIT
+    where Q_ID = #{qId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_QUIT
+    where Q_ID = #{qId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hrm.model.QuitExample" >
+    delete from T_QUIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hrm.model.Quit" >
+    insert into T_QUIT (Q_ID, Q_CAUSE, Q_TIME, 
+      S_ID)
+    values (#{qId,jdbcType=DECIMAL}, #{qCause,jdbcType=VARCHAR}, #{qTime,jdbcType=VARCHAR}, 
+      #{sId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hrm.model.Quit" >
+    insert into T_QUIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="qId != null" >
+        Q_ID,
+      </if>
+      <if test="qCause != null" >
+        Q_CAUSE,
+      </if>
+      <if test="qTime != null" >
+        Q_TIME,
+      </if>
+      <if test="sId != null" >
+        S_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="qId != null" >
+        #{qId,jdbcType=DECIMAL},
+      </if>
+      <if test="qCause != null" >
+        #{qCause,jdbcType=VARCHAR},
+      </if>
+      <if test="qTime != null" >
+        #{qTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sId != null" >
+        #{sId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hrm.model.QuitExample" resultType="java.lang.Integer" >
+    select count(*) from T_QUIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_QUIT
+    <set >
+      <if test="record.qId != null" >
+        Q_ID = #{record.qId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.qCause != null" >
+        Q_CAUSE = #{record.qCause,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qTime != null" >
+        Q_TIME = #{record.qTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sId != null" >
+        S_ID = #{record.sId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_QUIT
+    set Q_ID = #{record.qId,jdbcType=DECIMAL},
+      Q_CAUSE = #{record.qCause,jdbcType=VARCHAR},
+      Q_TIME = #{record.qTime,jdbcType=VARCHAR},
+      S_ID = #{record.sId,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.model.Quit" >
+    update T_QUIT
+    <set >
+      <if test="qCause != null" >
+        Q_CAUSE = #{qCause,jdbcType=VARCHAR},
+      </if>
+      <if test="qTime != null" >
+        Q_TIME = #{qTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sId != null" >
+        S_ID = #{sId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where Q_ID = #{qId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.model.Quit" >
+    update T_QUIT
+    set Q_CAUSE = #{qCause,jdbcType=VARCHAR},
+      Q_TIME = #{qTime,jdbcType=VARCHAR},
+      S_ID = #{sId,jdbcType=DECIMAL}
+    where Q_ID = #{qId,jdbcType=DECIMAL}
+  </update>
+</mapper>

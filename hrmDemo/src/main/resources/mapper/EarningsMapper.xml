@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.EarningsMapper" >
+  <resultMap id="BaseResultMap" type="com.hrm.model.Earnings" >
+    <id column="E_ID" property="eId" jdbcType="DECIMAL" />
+    <result column="E_SALARY" property="eSalary" jdbcType="DECIMAL" />
+    <result column="E_PERF" property="ePerf" jdbcType="DECIMAL" />
+    <result column="E_OVERTIME" property="eOvertime" jdbcType="DECIMAL" />
+    <result column="E_REWARDS" property="eRewards" jdbcType="DECIMAL" />
+    <result column="E_SECURITY" property="eSecurity" jdbcType="DECIMAL" />
+    <result column="E_SUM" property="eSum" jdbcType="DECIMAL" />
+    <result column="E_TIME" property="eTime" jdbcType="VARCHAR" />
+    <result column="E_WHETHER" property="eWhether" jdbcType="DECIMAL" />
+    <result column="E_CAUSE" property="eCause" jdbcType="VARCHAR" />
+    <result column="S_ID" property="sId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    E_ID, E_SALARY, E_PERF, E_OVERTIME, E_REWARDS, E_SECURITY, E_SUM, E_TIME, E_WHETHER, 
+    E_CAUSE, S_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hrm.model.EarningsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_EARNINGS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_EARNINGS
+    where E_ID = #{eId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_EARNINGS
+    where E_ID = #{eId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hrm.model.EarningsExample" >
+    delete from T_EARNINGS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hrm.model.Earnings" >
+    insert into T_EARNINGS (E_ID, E_SALARY, E_PERF, 
+      E_OVERTIME, E_REWARDS, E_SECURITY, 
+      E_SUM, E_TIME, E_WHETHER, 
+      E_CAUSE, S_ID)
+    values (#{eId,jdbcType=DECIMAL}, #{eSalary,jdbcType=DECIMAL}, #{ePerf,jdbcType=DECIMAL}, 
+      #{eOvertime,jdbcType=DECIMAL}, #{eRewards,jdbcType=DECIMAL}, #{eSecurity,jdbcType=DECIMAL}, 
+      #{eSum,jdbcType=DECIMAL}, #{eTime,jdbcType=VARCHAR}, #{eWhether,jdbcType=DECIMAL}, 
+      #{eCause,jdbcType=VARCHAR}, #{sId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hrm.model.Earnings" >
+    insert into T_EARNINGS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eId != null" >
+        E_ID,
+      </if>
+      <if test="eSalary != null" >
+        E_SALARY,
+      </if>
+      <if test="ePerf != null" >
+        E_PERF,
+      </if>
+      <if test="eOvertime != null" >
+        E_OVERTIME,
+      </if>
+      <if test="eRewards != null" >
+        E_REWARDS,
+      </if>
+      <if test="eSecurity != null" >
+        E_SECURITY,
+      </if>
+      <if test="eSum != null" >
+        E_SUM,
+      </if>
+      <if test="eTime != null" >
+        E_TIME,
+      </if>
+      <if test="eWhether != null" >
+        E_WHETHER,
+      </if>
+      <if test="eCause != null" >
+        E_CAUSE,
+      </if>
+      <if test="sId != null" >
+        S_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eId != null" >
+        #{eId,jdbcType=DECIMAL},
+      </if>
+      <if test="eSalary != null" >
+        #{eSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="ePerf != null" >
+        #{ePerf,jdbcType=DECIMAL},
+      </if>
+      <if test="eOvertime != null" >
+        #{eOvertime,jdbcType=DECIMAL},
+      </if>
+      <if test="eRewards != null" >
+        #{eRewards,jdbcType=DECIMAL},
+      </if>
+      <if test="eSecurity != null" >
+        #{eSecurity,jdbcType=DECIMAL},
+      </if>
+      <if test="eSum != null" >
+        #{eSum,jdbcType=DECIMAL},
+      </if>
+      <if test="eTime != null" >
+        #{eTime,jdbcType=VARCHAR},
+      </if>
+      <if test="eWhether != null" >
+        #{eWhether,jdbcType=DECIMAL},
+      </if>
+      <if test="eCause != null" >
+        #{eCause,jdbcType=VARCHAR},
+      </if>
+      <if test="sId != null" >
+        #{sId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hrm.model.EarningsExample" resultType="java.lang.Integer" >
+    select count(*) from T_EARNINGS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_EARNINGS
+    <set >
+      <if test="record.eId != null" >
+        E_ID = #{record.eId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eSalary != null" >
+        E_SALARY = #{record.eSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ePerf != null" >
+        E_PERF = #{record.ePerf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eOvertime != null" >
+        E_OVERTIME = #{record.eOvertime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eRewards != null" >
+        E_REWARDS = #{record.eRewards,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eSecurity != null" >
+        E_SECURITY = #{record.eSecurity,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eSum != null" >
+        E_SUM = #{record.eSum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eTime != null" >
+        E_TIME = #{record.eTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eWhether != null" >
+        E_WHETHER = #{record.eWhether,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eCause != null" >
+        E_CAUSE = #{record.eCause,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sId != null" >
+        S_ID = #{record.sId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_EARNINGS
+    set E_ID = #{record.eId,jdbcType=DECIMAL},
+      E_SALARY = #{record.eSalary,jdbcType=DECIMAL},
+      E_PERF = #{record.ePerf,jdbcType=DECIMAL},
+      E_OVERTIME = #{record.eOvertime,jdbcType=DECIMAL},
+      E_REWARDS = #{record.eRewards,jdbcType=DECIMAL},
+      E_SECURITY = #{record.eSecurity,jdbcType=DECIMAL},
+      E_SUM = #{record.eSum,jdbcType=DECIMAL},
+      E_TIME = #{record.eTime,jdbcType=VARCHAR},
+      E_WHETHER = #{record.eWhether,jdbcType=DECIMAL},
+      E_CAUSE = #{record.eCause,jdbcType=VARCHAR},
+      S_ID = #{record.sId,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.model.Earnings" >
+    update T_EARNINGS
+    <set >
+      <if test="eSalary != null" >
+        E_SALARY = #{eSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="ePerf != null" >
+        E_PERF = #{ePerf,jdbcType=DECIMAL},
+      </if>
+      <if test="eOvertime != null" >
+        E_OVERTIME = #{eOvertime,jdbcType=DECIMAL},
+      </if>
+      <if test="eRewards != null" >
+        E_REWARDS = #{eRewards,jdbcType=DECIMAL},
+      </if>
+      <if test="eSecurity != null" >
+        E_SECURITY = #{eSecurity,jdbcType=DECIMAL},
+      </if>
+      <if test="eSum != null" >
+        E_SUM = #{eSum,jdbcType=DECIMAL},
+      </if>
+      <if test="eTime != null" >
+        E_TIME = #{eTime,jdbcType=VARCHAR},
+      </if>
+      <if test="eWhether != null" >
+        E_WHETHER = #{eWhether,jdbcType=DECIMAL},
+      </if>
+      <if test="eCause != null" >
+        E_CAUSE = #{eCause,jdbcType=VARCHAR},
+      </if>
+      <if test="sId != null" >
+        S_ID = #{sId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where E_ID = #{eId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.model.Earnings" >
+    update T_EARNINGS
+    set E_SALARY = #{eSalary,jdbcType=DECIMAL},
+      E_PERF = #{ePerf,jdbcType=DECIMAL},
+      E_OVERTIME = #{eOvertime,jdbcType=DECIMAL},
+      E_REWARDS = #{eRewards,jdbcType=DECIMAL},
+      E_SECURITY = #{eSecurity,jdbcType=DECIMAL},
+      E_SUM = #{eSum,jdbcType=DECIMAL},
+      E_TIME = #{eTime,jdbcType=VARCHAR},
+      E_WHETHER = #{eWhether,jdbcType=DECIMAL},
+      E_CAUSE = #{eCause,jdbcType=VARCHAR},
+      S_ID = #{sId,jdbcType=DECIMAL}
+    where E_ID = #{eId,jdbcType=DECIMAL}
+  </update>
+</mapper>
