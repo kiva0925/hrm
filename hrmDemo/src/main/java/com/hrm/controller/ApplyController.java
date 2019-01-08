@@ -45,7 +45,7 @@ public class ApplyController {
                     }
                 }
                 earnings.seteCause(desc);
-                earnings.seteWhether(1);//提出异议
+                earnings.seteWhether(2);//提出异议
                 if(earningsService.updateEarnings(earnings)>0){
                     sign_a="申请成功";
                 }else {

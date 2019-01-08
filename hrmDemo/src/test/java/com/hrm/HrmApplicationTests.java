@@ -1,5 +1,6 @@
 package com.hrm;
 
+import com.hrm.util.AgeUtils;
 import com.hrm.util.MyUtil;
 import com.hrm.model.*;
 import com.hrm.service.*;
@@ -180,6 +181,11 @@ public class HrmApplicationTests {
     @Test
     public void getLastMonth(){
         System.out.println(MyUtil.getLastMonth());
+    }
+
+    @Test
+    public void getAgeFromBirthTime(){
+        System.out.println(AgeUtils.getAgeFromBirthTime("1995-6"));
     }
 
     @Test

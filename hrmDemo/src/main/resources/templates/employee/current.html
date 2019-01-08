@@ -42,14 +42,14 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">考勤</a>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">考勤</a>
                     <dl class="layui-nav-child">
                         <dd><a href="clock_in">打卡</a></dd>
                         <dd><a href="javascript:;">绩效</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">工资</a>
                     <dl class="layui-nav-child">
                         <dd><a href="current">当月工资</a></dd>
@@ -63,29 +63,40 @@
     </div>
 
     <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-            <legend>记录时间线</legend>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend th:text="${session.earningsVo.eTime}"></legend>
         </fieldset>
-        <ul class="layui-timeline">
-            <li class="layui-timeline-item" th:each="m:${session.manageVos}">
-                <i class="layui-icon layui-timeline-axis"></i>
-                <div class="layui-timeline-content layui-text">
-                    <h3 class="layui-timeline-title"  th:text="${m.groom.gContent}"></h3>
-                    <p>
-                        开始时间：<span th:text="${m.groom.gBegintime}"></span><br>
-                        结束时间：<span th:text="${m.groom.gEndtime}"></span><br>
-                        培训要求：<span th:text="${m.groom.gRequire}"></span>
-                    </p>
-                </div>
-            </li>
-            <li class="layui-timeline-item">
-                <i class="layui-icon layui-timeline-axis"></i>
-                <div class="layui-timeline-content layui-text">
-                    <div class="layui-timeline-title">过去</div>
-                </div>
-            </li>
-        </ul>
+
+        <div class="layui-form">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">当月工资</th>
+                    <th scope="col">绩效奖金</th>
+                    <th scope="col">加班费用</th>
+                    <th scope="col">奖惩费用</th>
+                    <th scope="col">社保费用</th>
+                    <th scope="col">实发工资</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${session.earningsVo.eSalary}"></td>
+                    <td th:text="${session.earningsVo.ePerf}"></td>
+                    <td th:text="${session.earningsVo.eOvertime}"></td>
+                    <td th:text="${session.earningsVo.eRewards}"></td>
+                    <td th:text="${session.earningsVo.eSecurity}"></td>
+                    <td th:text="${session.earningsVo.eSum}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="layui-footer">
