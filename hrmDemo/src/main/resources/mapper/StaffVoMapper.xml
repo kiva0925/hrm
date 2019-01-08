@@ -21,6 +21,9 @@
             <when test="titleVo!=null">
                 and T_TITLE.D_ID = #{titleVo.dId}
             </when>
+            <when test="sHiredate!=null">
+                and TO_DATE(#{sHiredate},'yyyy-mm') >= TO_DATE(SUBSTR(S_HIREDATE,0,7),'yyyy-mm')
+            </when>
         </choose>
     </select>
     <resultMap id="StaffVoMap" extends="com.hrm.dao.StaffMapper.BaseResultMap" type="com.hrm.model.StaffVo">

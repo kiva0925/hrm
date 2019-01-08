@@ -1,5 +1,6 @@
 package com.hrm;
 
+import com.hrm.util.MyUtil;
 import com.hrm.model.*;
 import com.hrm.service.*;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import javax.xml.crypto.Data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +36,10 @@ public class HrmApplicationTests {
     private ClockVoService clockVoService;
     @Resource
     private EarningsService earningsService;
+    @Resource
+    private EarningsVoService earningsVoService;
+    @Resource
+    private PrizeVoService prizeVoService;
 
     @Test
     public void addRecruit() {//Recruit添加
@@ -111,6 +115,7 @@ public class HrmApplicationTests {
     public void getStaffVos(){//待考察
         StaffVo staffVo = new StaffVo();
         //staffVo.setsId(1);
+        staffVo.setsHiredate("2018-2");
         List<StaffVo> staffVos = staffVoService.getStaffVos(staffVo);
         System.out.println(staffVos);
     }
@@ -161,6 +166,38 @@ public class HrmApplicationTests {
         earnings.setsId(4);
         List<Earnings> earnings1 = earningsService.getEarnings(earnings);
         System.out.println(earnings1);
+    }
+
+    @Test
+    public void getEarningsVo() throws ParseException{//通过员工id或者结算年月查找薪资结算
+        Earnings earnings = new Earnings();
+        //earnings.setsId(1);
+        earnings.seteTime("2018-12");
+        List<EarningsVo> earningsVo = earningsVoService.getEarningsVo(earnings);
+        System.out.println(earningsVo);
+    }
+
+    @Test
+    public void getLastMonth(){
+        System.out.println(MyUtil.getLastMonth());
+    }
+
+    @Test
+    public void getPrizeVos() throws ParseException{
+        Prize prize = new Prize();
+        //prize.setsId(4);
+        prize.setpTime(MyUtil.getLastMonth());
+        List<Prize> prizes = prizeVoService.getPrizes(prize);
+        System.out.println(prizes);
+    }
+
+    @Test
+    public void getClockVos_2() throws ParseException{
+        Clock clock = new Clock();
+        //clock.setsId(5);
+        clock.setcData("2019-01-01");//与员工id一起使用时只需要年月，单独使用需要年月日
+        List<ClockVo> clockVos = clockVoService.getClockVos(clock);
+        System.out.println(clockVos);
     }
 
 }

@@ -234,9 +234,73 @@
                 <h4 class="page-title">结算</h4>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="card">
+                        <div class="card" style="width: 180%">
                             <div class="card-header">
                                 <div class="card-title">工资结算</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-sub">
+                                    <code class="highlight-rouge" th:text="${session.earningsVo[0].eTime}"></code>工资结算
+                                </div>
+                                <table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4">
+                                    <thead>
+                                    <tr style="text-align: center">
+                                        <th scope="col">员工编号</th>
+                                        <th scope="col">员工姓名</th>
+                                        <th scope="col">所在部门</th>
+                                        <th scope="col">当前职位</th>
+                                        <th scope="col">当月工资</th>
+                                        <th scope="col">绩效奖金</th>
+                                        <th scope="col">加班费用</th>
+                                        <th scope="col">奖惩费用</th>
+                                        <th scope="col">社保费用</th>
+                                        <th scope="col">实发工资</th>
+                                        <th scope="col">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr style="text-align: center"  th:each="e:${session.earningsVo}">
+                                        <td th:text="${e.staffVo.sId}"></td>
+                                        <td th:text="${e.staffVo.bio.bName}"></td>
+                                        <td th:text="${e.staffVo.titleVo.department.dName}"></td>
+                                        <td th:text="${e.staffVo.titleVo.tName}"></td>
+                                        <td th:text="${e.eSalary}"></td>
+                                        <td th:text="${e.ePerf}"></td>
+                                        <td th:text="${e.eOvertime}"></td>
+                                        <td th:text="${e.eRewards}"></td>
+                                        <td th:text="${e.eSecurity}"></td>
+                                        <td th:text="${e.eSum}"></td>
+                                        <td>
+                                            <a th:href="@{/(sId=${e.eId})}">
+                                                <button class="btn btn-info btn-sm">查看</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <a href="present" th:if="${session.earningsVo[0].eWhether==0}" onClick="return confirm('是否提交?');">
+                                    <button class="btn btn-success btn-lg" style="float: right">提交</button>
+                                </a>
+                                <!--分页用-->
+                                <!--<p class="demo">
+                                <ul class="pagination pg-primary">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                </p>-->
                             </div>
                         </div>
                     </div>

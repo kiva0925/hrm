@@ -11,6 +11,9 @@
         <choose>
             <when test="sId!=null">
                 and T_CLOCK.S_ID = #{sId}
+                <if test="cData!=null">
+                    and TO_DATE(SUBSTR(C_DATA,0,7),'yyyy-mm') = TO_DATE(#{cData},'yyyy-mm')
+                </if>
             </when>
             <when test="cData!=null">
                 and C_DATA=#{cData}

@@ -27,7 +27,7 @@ public class BioController {
     }
 
     @RequestMapping("/checkBio")
-    public String checkBio(Bio bio,HttpSession session){
+    public String checkBio(Bio bio,HttpSession session)throws Exception{
         System.out.println(bio);
         Bio bio1 = bioService.getBio(bio);
         session.setAttribute("bio",bio1);

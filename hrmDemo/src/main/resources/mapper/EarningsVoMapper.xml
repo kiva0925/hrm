@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.EarningsVoMapper">
+    <select id="getEarningsVo" resultMap="EarningsVoMap">
+        select E_ID, E_SALARY, E_PERF, E_OVERTIME, E_REWARDS, E_SECURITY, E_SUM, E_TIME, E_WHETHER, E_CAUSE,
+        T_STAFF.S_ID,S_HIREDATE,S_CORPUS,
+        T_STYPE.ST_ID,ST_CASE,
+        T_STAFF.B_ID, B_NAME,
+        T_STAFF.T_ID,T_NAME,
+        T_DEPARTMENT.D_ID,D_NAME
+        from T_EARNINGS,T_STAFF,T_STYPE,T_TITLE,T_DEPARTMENT,T_BIO
+        where T_EARNINGS.S_ID = T_STAFF.S_ID
+        and T_STAFF.T_ID = T_TITLE.T_ID
+        and T_TITLE.D_ID=T_DEPARTMENT.D_ID
+        and T_STAFF.B_ID=T_BIO.B_ID
+        and T_STAFF.ST_ID=T_STYPE.ST_ID
+        <choose>
+            <when test="sId!=null">
+                and T_EARNINGS.S_ID = #{sId}
+            </when>
+            <when test="eTime!=null">
+                and TO_DATE(E_TIME,'yyyy-mm') = TO_DATE(#{eTime},'yyyy-mm')
+            </when>
+        </choose>
+    </select>
+    <resultMap id="EarningsVoMap" extends="com.hrm.dao.EarningsMapper.BaseResultMap" type="com.hrm.model.EarningsVo">
+        <association property="staffVo" resultMap="InStaffVo"></association>
+    </resultMap>
+    <resultMap id="InStaffVo" type="com.hrm.model.StaffVo" extends="com.hrm.dao.StaffVoMapper.StaffVoMap"/>
+</mapper>

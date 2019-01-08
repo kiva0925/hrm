@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrm.dao.PrizeVoMapper">
+    <select id="getPrizes" resultMap="PrizeVoMap">
+        select P_ID, P_CAUSE, P_SUM, P_TIME, S_ID
+        from T_PRIZE
+        <where>
+            <if test="sId!=null">
+                and S_ID = #{sId}
+            </if>
+            <if test="pTime!=null">
+                and TO_DATE(SUBSTR(P_TIME,0,7),'yyyy-mm') = TO_DATE(#{pTime},'yyyy-mm')
+            </if>
+        </where>
+    </select>
+    <resultMap id="PrizeVoMap" extends="com.hrm.dao.PrizeMapper.BaseResultMap" type="com.hrm.model.Prize">
+    </resultMap>
+</mapper>
