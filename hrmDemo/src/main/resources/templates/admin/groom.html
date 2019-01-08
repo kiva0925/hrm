@@ -254,6 +254,7 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>培训内容</label>
+                                        <input type="hidden" name="gId" th:value="${session.groom.gId}">
                                         <input type="text" th:value="${session.groom.gContent}" id="gContent" name="gContent" class="form-control input-square">
                                     </div>
                                     <div class="form-group">

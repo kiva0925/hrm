@@ -3,8 +3,11 @@ package com.hrm.dao;
 import com.hrm.model.Earnings;
 import com.hrm.model.EarningsExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface EarningsMapper {
     int countByExample(EarningsExample example);
 

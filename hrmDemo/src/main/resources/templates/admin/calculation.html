@@ -13,26 +13,16 @@
 <body>
 <script>
     $(function (){
-        $("#sel1").change(function() {
-            //清空
-            $("#sel2").html("");
-
-            var did=$("#sel1").val();
-            $.ajax({
-                type:"post",
-                url:"selectTitle",
-                data:"did="+did,
-                success:function (obj) {
-                    if (obj != null){
-                        for (var i in obj) {
-                            var option = $("<option></option>")
-                            option.text(obj[i].tName)
-                            option.attr("value",obj[i].tId)
-                            $("#sel2").append(option)
-                        }
-                    }
-                }
-            })
+        $("#depart").click(function(){
+            var val=$("#departname").val();
+            if(val==""){
+                alert("部门名称不能为空");
+                return false;
+            }
+            if(val.length>20){
+                alert("部门名称过长");
+                return false;
+            }
         })
     })
 </script>
@@ -214,7 +204,7 @@
                         <span class="badge badge-count"></span>
                     </a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="getStaff">
                         <i class="la la-th"></i>
                         <p>员工</p>
@@ -228,7 +218,7 @@
                         <span class="badge badge-count"></span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a href="getCalculation">
                         <i class="la la-th"></i>
                         <p>结算</p>
@@ -241,99 +231,15 @@
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-                <h4 class="page-title">员工操作</h4>
+                <h4 class="page-title">结算</h4>
                 <div class="row">
-
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">员工详情</div>
-                            </div>
-                            <div class="card-body">
-                                <form action="getStaff" method="post">
-                                    <div class="form-group">
-                                        <label>所属部门</label>
-                                        <select id="sel1" class="form-control input-square" name="dId">
-                                            <option value="0">全部</option>
-                                            <option th:each="d:${session.departmentVos}" th:value="${d.dId}"><span th:text="${d.dName}"></span></option>
-                                        </select>
-                                        <label>部门职位</label>
-                                        <select id="sel2" class="form-control input-square" name="tId">
-                                            <option>请选择</option>
-                                        </select>
-                                    </div>
-                                    <input id="sel" type="submit" class="btn btn-success" style="float: right" value="查找">
-                                </form>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">编号</th>
-                                        <th scope="col">姓名</th>
-                                        <th scope="col">部门</th>
-                                        <th scope="col">职位</th>
-                                        <th scope="col">工资</th>
-                                        <th scope="col">状态</th>
-                                        <th scope="col">操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="s:${session.staffVos}">
-                                        <td><span th:text="${s.sId}"></span></td>
-                                        <td><span th:text="${s.bio.bName}"></span></td>
-                                        <td><span th:text="${s.titleVo.department.dName}"></span></td>
-                                        <td><span th:text="${s.titleVo.tName}"></span></td>
-                                        <td><span th:text="${s.sCorpus}"></span></td>
-                                        <td><span th:text="${s.stype.stCase}"></span></td>
-                                        <td>
-                                            <a th:href="@{/personnel(sId=${s.sId})}">
-                                                <button class="btn btn-success btn-sm">查看</button>
-                                            </a>
-                                            <a th:href="@{/relieve_guard(sId=${s.sId})}">
-                                                <button class="btn btn-info btn-sm">调岗</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <div class="card-title">工资结算</div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">员工入职</div>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">姓名</th>
-                                        <th scope="col">部门</th>
-                                        <th scope="col">职位</th>
-                                        <th scope="col">操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="i:${session.invitedVos}">
-                                        <td><span th:text="${i.bio.bName}"></span></td>
-                                        <td><span th:text="${i.recruitVo.titleVo.department.dName}"></span></td>
-                                        <td><span th:text="${i.recruitVo.titleVo.tName}"></span></td>
-                                        <td>
-                                            <a th:href="@{/newStaff(iId=${i.iId})}">
-                                                <button class="btn btn-success btn-sm">办理</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
         </div>

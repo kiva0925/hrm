@@ -28,6 +28,7 @@ public class GroomServiceImpl implements GroomService {
 
     @Override
     public int updateGroom(Groom groom) {
+        groom.setgType("已发布");
         return groomMapper.updateByPrimaryKeySelective(groom);
     }
 
