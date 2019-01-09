@@ -33,6 +33,11 @@ public class EarningsServiceImpl implements EarningsService {
         Prize prize = new Prize();
         Clock clock = new Clock();
         Double sum = 0.0;
+        for (int i = 0; i < staffVos.size(); i++) {//去除已离职的员工
+            if(staffVos.get(i).getStId()==2){
+                staffVos.remove(i);
+            }
+        }
         for (StaffVo vo : staffVos) {
             earnings.setsId(vo.getsId());//员工id
             if(vo.getStype().getStId()==0){
@@ -71,11 +76,72 @@ public class EarningsServiceImpl implements EarningsService {
             sum += earnings.getePerf();
             earnings.seteSecurity(-200.0);//社保
             sum += earnings.geteSecurity();
-            earnings.seteSum(sum);
+            if(earnings.geteSalary()==0){//如果当月工资结算出来是0，代表没上过一天班，结算自然为0
+                earnings.seteSum(0.0);
+            }else {
+                earnings.seteSum(sum);
+            }
             earnings.seteTime(MyUtil.getLastMonth());
             sign += earningsMapper.insertSelective(earnings);
         }
         return sign;
+    }
+
+    @Override
+    public int addEarnings(Integer sId) {
+        Earnings earnings = new Earnings();
+        StaffVo staffVo = new StaffVo();
+        staffVo.setsId(sId);
+        List<StaffVo> staffVos = staffVoService.getStaffVos(staffVo);
+        Prize prize = new Prize();
+        Clock clock = new Clock();
+        Double sum = 0.0;
+        if(staffVos.size()>0){
+            earnings.setsId(sId);//员工id
+            if(staffVos.get(0).getStype().getStId()==0){
+                staffVos.get(0).setsCorpus(staffVos.get(0).getsCorpus()*0.8);
+            }
+            prize.setsId(sId);
+            prize.setpTime(MyUtil.getMonth());
+            List<Prize> prizes = prizeVoService.getPrizes(prize);
+            Double rewards = 0.0;
+            if(prizes.size()>0){
+                for (Prize p : prizes) {
+                    rewards += p.getpSum();
+                }
+            }
+            earnings.seteRewards(rewards);//奖惩费用
+            sum += rewards;
+            clock.setsId(sId);
+            clock.setcData(MyUtil.getMonth());
+            List<ClockVo> clockVos = clockVoService.getClockVos(clock);
+            if(clockVos.size()>0){
+                for (int i = 0; i < clockVos.size(); i++) {
+                    if(clockVos.get(i).getcOffduty()==null){
+                        clockVos.remove(clockVos.get(i));
+                    }
+                }
+            }
+            if(clockVos.size()>=22){
+                earnings.seteSalary(staffVos.get(0).getsCorpus());//当月薪资
+                earnings.seteOvertime((clockVos.size()-22)*(staffVos.get(0).getsCorpus()/22));
+                sum += earnings.geteOvertime();
+            }else {
+                earnings.seteSalary((staffVos.get(0).getsCorpus()/22)*clockVos.size());//当月薪资
+            }
+            sum += earnings.geteSalary();
+            earnings.setePerf(staffVos.get(0).getsCorpus()*0.1);//绩效奖金
+            sum += earnings.getePerf();
+            earnings.seteSecurity(-200.0);//社保
+            sum += earnings.geteSecurity();
+            if(earnings.geteSalary()==0){//如果当月工资结算出来是0，代表没上过一天班，结算自然为0
+                earnings.seteSum(0.0);
+            }else {
+                earnings.seteSum(sum);
+            }
+            earnings.seteTime(MyUtil.getMonth());
+        }
+        return earningsMapper.insertSelective(earnings);
     }
 
     @Override
@@ -94,6 +160,9 @@ public class EarningsServiceImpl implements EarningsService {
         EarningsExample.Criteria criterion = earningsExample.createCriteria();
         if(earnings.getsId()!=null){
             criterion.andSIdEqualTo(earnings.getsId());
+        }
+        if(earnings.geteId()!=null){
+            criterion.andEIdEqualTo(earnings.geteId());
         }
         List<Earnings> earningss = earningsMapper.selectByExample(earningsExample);
         if(earningss.size()>0){

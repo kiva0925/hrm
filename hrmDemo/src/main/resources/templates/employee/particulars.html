@@ -43,13 +43,13 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item">
-                    <a href="javascript:;">考勤</a>
+                    <a class="" href="javascript:;">考勤</a>
                     <dl class="layui-nav-child">
                         <dd><a href="clock_in">打卡</a></dd>
                         <dd><a href="javascript:;">绩效</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a href="javascript:;">工资</a>
                     <dl class="layui-nav-child">
                         <dd><a href="current">当月工资</a></dd>
@@ -63,8 +63,10 @@
     </div>
 
     <div class="layui-body">
+        <!-- 内容主体区域 -->
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-            <legend>往期工资</legend>
+            <legend th:if="${prizes!=null}">该月奖惩信息</legend>
+            <legend th:if="${prizes==null}">该月无奖惩信息</legend>
         </fieldset>
 
         <div class="layui-form">
@@ -77,33 +79,54 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th scope="col">年月</th>
-                    <th scope="col">当月工资</th>
-                    <th scope="col">绩效奖金</th>
-                    <th scope="col">加班费用</th>
-                    <th scope="col">奖惩费用</th>
-                    <th scope="col">社保费用</th>
-                    <th scope="col">实发工资</th>
-                    <th scope="col">查看详情</th>
+                    <th scope="col">奖惩时间</th>
+                    <th scope="col">奖惩原因</th>
+                    <th scope="col">奖惩金额</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr  th:if="${session.earningsVos!=null}" th:each="e:${session.earningsVos}">
-                    <td th:text="${e.eTime}"></td>
-                    <td th:text="${e.eSalary}"></td>
-                    <td th:text="${e.ePerf}"></td>
-                    <td th:text="${e.eOvertime}"></td>
-                    <td th:text="${e.eRewards}"></td>
-                    <td th:text="${e.eSecurity}"></td>
-                    <td th:text="${e.eSum}"></td>
-                    <td>
-                        <a th:href="@{/particulars(eId=${session.earningsVo.eId})}">
-                            <button class="btn btn-info btn-sm">查看</button>
-                        </a>
-                    </td>
+                <tr th:if="${prizes!=null}" th:each="p:${prizes}">
+                    <td th:text="${p.pTime}"></td>
+                    <td th:text="${p.pCause}"></td>
+                    <td th:text="${p.pSum}"></td>
                 </tr>
-                <tr th:if="${session.earningsVos==null}">
-                    <td colspan="6">暂无工资结算信息</td>
+                <tr th:if="${prizes==null}">
+                    <td colspan="3">无</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend th:if="${clockVos!=null}">该月打卡记录</legend>
+            <legend th:if="${clockVos==null}">该月未打卡</legend>
+        </fieldset>
+
+        <div class="layui-form">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">打卡日期</th>
+                    <th scope="col">上班打卡</th>
+                    <th scope="col">下班打卡</th>
+                    <th scope="col">当天统计</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${clockVos!=null}" th:each="c:${clockVos}">
+                    <td th:text="${c.cData}"></td>
+                    <td th:text="${c.cOnduty}"></td>
+                    <td th:text="${c.cOffduty}"></td>
+                    <td th:text="${c.attendance.aType}"></td>
+                </tr>
+                <tr th:if="${clockVos==null}">
+                    <td colspan="3">无</td>
                 </tr>
                 </tbody>
             </table>

@@ -41,6 +41,8 @@ public class HrmApplicationTests {
     private EarningsVoService earningsVoService;
     @Resource
     private PrizeVoService prizeVoService;
+    @Resource
+    private QuitService quitService;
 
     @Test
     public void addRecruit() {//Recruit添加
@@ -115,8 +117,8 @@ public class HrmApplicationTests {
     @Test
     public void getStaffVos(){//待考察
         StaffVo staffVo = new StaffVo();
-        //staffVo.setsId(1);
-        staffVo.setsHiredate("2018-2");
+        staffVo.setsId(4);
+        //staffVo.setsHiredate("2018-2");
         List<StaffVo> staffVos = staffVoService.getStaffVos(staffVo);
         System.out.println(staffVos);
     }
@@ -184,6 +186,11 @@ public class HrmApplicationTests {
     }
 
     @Test
+    public void getToday(){
+        System.out.println(MyUtil.getToday());
+    }
+
+    @Test
     public void getAgeFromBirthTime(){
         System.out.println(AgeUtils.getAgeFromBirthTime("1995-6"));
     }
@@ -204,6 +211,13 @@ public class HrmApplicationTests {
         clock.setcData("2019-01-01");//与员工id一起使用时只需要年月，单独使用需要年月日
         List<ClockVo> clockVos = clockVoService.getClockVos(clock);
         System.out.println(clockVos);
+    }
+
+    @Test
+    public void getQuit() throws ParseException{
+        Quit quit = new Quit();
+        List<Quit> quit1 = quitService.getQuit(quit);
+        System.out.println(quit1);
     }
 
 }

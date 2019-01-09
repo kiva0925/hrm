@@ -29,6 +29,8 @@ public class EmployeeController {
     private ClockService clockService;
     @Resource
     private ManageVoService manageVoService;
+    @Resource
+    private PrizeVoService prizeVoService;
 
     @RequestMapping("/employees")
     public String employees(HttpSession session, Model model, HttpServletResponse response) throws Exception{
@@ -103,7 +105,7 @@ public class EmployeeController {
         earnings.setsId(staffVo.getsId());
         earnings.seteTime(MyUtil.getLastMonth());
         List<EarningsVo> earningsVo = earningsVoService.getEarningsVo(earnings);
-        if(earningsVo.size()>0){
+        if(earningsVo.size()>0&&earningsVo.get(0).geteWhether()!=0){//工资信息显示，并且异议操作开启【即eWhether！=0】
             session.setAttribute("earningsVo",earningsVo.get(0));
         }
         return "employee/current";
@@ -116,10 +118,40 @@ public class EmployeeController {
         earnings.setsId(staffVo.getsId());
         earnings.seteTime(MyUtil.getLastMonth());
         List<EarningsVo> earningsVo = earningsVoService.getEarningsVo(earnings);
+        for (int i = 0; i < earningsVo.size(); i++) {
+            if(earningsVo.get(i).geteWhether()==0){
+                earningsVo.remove(i);
+            }
+        }
         if(earningsVo.size()>0){
             session.setAttribute("earningsVos",earningsVo);
         }
         return "employee/events";
+    }
+
+    @RequestMapping("/particulars")
+    public String particulars(Integer eId,HttpSession session,Model model) throws Exception{
+        EarningsVo earningsVo = new EarningsVo();
+        earningsVo = (EarningsVo) session.getAttribute("earningsVo");
+        if(earningsVo.geteId()!=eId){//获取该工资条
+            List<EarningsVo> earningsVos = (List<EarningsVo>) session.getAttribute("earningsVos");
+            for (EarningsVo vo : earningsVos) {
+                if(eId == vo.geteId()){
+                    earningsVo =vo;
+                }
+            }
+        }
+        Prize prize = new Prize();
+        prize.setsId(earningsVo.getStaffVo().getsId());
+        prize.setpTime(earningsVo.geteTime());
+        List<Prize> prizes = prizeVoService.getPrizes(prize);//该工资所在月份的所有奖惩信息
+        model.addAttribute("prizes",prizes);
+        Clock clock = new Clock();
+        clock.setsId(earningsVo.getStaffVo().getsId());
+        clock.setcData(earningsVo.geteTime());
+        List<ClockVo> clockVos = clockVoService.getClockVos(clock);
+        model.addAttribute("clockVos",clockVos);
+        return "employee/particulars";
     }
 
     @RequestMapping("/address")

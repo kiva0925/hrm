@@ -13,20 +13,26 @@
 <body>
 <script>
     $(function (){
-        $("#depart").click(function(){
-            var val=$("#departname").val();
-            if(val==""){
-                alert("部门名称不能为空");
-                return false;
-            }
-            if(val.length>20){
-                alert("部门名称过长");
-                return false;
+        $(".agree").click(function() {
+            var eId=$(this).attr("value")
+            var pSum = prompt("请输入奖惩金额：")
+            if(!isNaN(pSum))
+            {
+                $.ajax({
+                    type:"post",
+                    url:"addMoney",
+                    data:{'eId':eId,'pSum':pSum},
+                    success:function (obj) {
+                        window.location.reload();
+                        //window.location.href='dispose';
+                    }
+                })
+            }else{
+                alert("输入的不是有效的金额");
             }
         })
     })
 </script>
-
 <div class="wrapper">
     <div class="main-header">
         <div class="logo-header">
@@ -186,130 +192,74 @@
                 <li class="nav-item">
                     <a href="depart">
                         <i class="la la-th"></i>
-                        <p>部门</p>
+                        <p>返回上页</p>
                         <span class="badge badge-count"></span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="getTitle">
-                        <i class="la la-th"></i>
-                        <p>职位</p>
-                        <span class="badge badge-count"></span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="getRecruit">
-                        <i class="la la-th"></i>
-                        <p>招聘</p>
-                        <span class="badge badge-count"></span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="getStaff">
-                        <i class="la la-th"></i>
-                        <p>员工</p>
-                        <span class="badge badge-count"></span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="getGroom">
-                        <i class="la la-th"></i>
-                        <p>培训</p>
-                        <span class="badge badge-count"></span>
-                    </a>
-                </li>
+
                 <li class="nav-item active">
-                    <a href="getCalculation">
+                    <a href="#">
                         <i class="la la-th"></i>
-                        <p>结算</p>
+                        <p>情况</p>
                         <span class="badge badge-count"></span>
                     </a>
                 </li>
+
             </ul>
         </div>
     </div>
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-                <h4 class="page-title">结算</h4>
+                <h4 class="page-title">邮件</h4>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="right: auto">
+
                         <div class="card" style="width: 180%">
                             <div class="card-header">
-                                <div class="card-title">工资结算</div>
+                                <div class="card-title">邮件处理</div>
                             </div>
                             <div class="card-body">
-                                <div class="card-sub">
-                                    <code th:if="${session.earningsVo!=null}"
-                                            class="highlight-rouge"
-                                           th:text="${session.earningsVo[0].eTime}"></code>工资结算
-                                </div>
                                 <table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4">
                                     <thead>
                                     <tr style="text-align: center">
-                                        <th scope="col">员工编号</th>
-                                        <th scope="col">员工姓名</th>
-                                        <th scope="col">所在部门</th>
-                                        <th scope="col">当前职位</th>
-                                        <th scope="col">当月工资</th>
-                                        <th scope="col">绩效奖金</th>
-                                        <th scope="col">加班费用</th>
-                                        <th scope="col">奖惩费用</th>
-                                        <th scope="col">社保费用</th>
-                                        <th scope="col">实发工资</th>
+                                        <th scope="col">类型</th>
+                                        <th scope="col">工号</th>
+                                        <th scope="col">原因</th>
                                         <th scope="col">操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr  th:if="${session.earningsVo!=null}"
-                                         style="text-align: center"
-                                         th:each="e:${session.earningsVo}">
-                                        <td th:text="${e.staffVo.sId}"></td>
-                                        <td th:text="${e.staffVo.bio.bName}"></td>
-                                        <td th:text="${e.staffVo.titleVo.department.dName}"></td>
-                                        <td th:text="${e.staffVo.titleVo.tName}"></td>
-                                        <td th:text="${e.eSalary}"></td>
-                                        <td th:text="${e.ePerf}"></td>
-                                        <td th:text="${e.eOvertime}"></td>
-                                        <td th:text="${e.eRewards}"></td>
-                                        <td th:text="${e.eSecurity}"></td>
-                                        <td th:text="${e.eSum}"></td>
+                                    <tr th:if="${earningsVos!=null}" style="text-align: center"  th:each="e:${earningsVos}">
+                                        <td>工资异议</td>
+                                        <td th:text="${e.sId}"></td>
+                                        <td th:text="${e.eCause}"></td>
                                         <td>
-                                            <a th:href="@{/(sId=${e.eId})}">
-                                                <button class="btn btn-info btn-sm">查看</button>
+                                            <button class="agree" th:value="${e.eId}" style="background-color:#59d05d;;width: 52px;height: 36px;color: white;border: none;cursor: pointer">同意</button>
+                                            <a th:href="@{/reject(eId=${e.eId})}">
+                                                <button class="btn btn-warning btn-sm">拒绝</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${quits!=null}" style="text-align: center"  th:each="q:${quits}">
+                                        <td>离职申请</td>
+                                        <td th:text="${q.sId}"></td>
+                                        <td th:text="${q.qCause}"></td>
+                                        <td>
+                                            <a th:href="@{/updateQuit(qId=${q.qId})}">
+                                                <button class="btn btn-danger btn-sm">同意</button>
                                             </a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <a href="present"
-                                   th:if="${session.earningsVo!=null&&session.earningsVo[0].eWhether==0}" onClick="return confirm('是否提交?');">
-                                    <button class="btn btn-success btn-lg" style="float: right">提交</button>
-                                </a>
-                                <!--分页用-->
-                                <!--<p class="demo">
-                                <ul class="pagination pg-primary">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                </p>-->
                             </div>
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>

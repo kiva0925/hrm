@@ -69,16 +69,16 @@
                             <i class="la la-envelope"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" th:href="@{/dispose(aging=1)}">异议请求</a>
+                            <a class="dropdown-item" th:href="@{/dispose(aging=2)}">离职请求</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" th:href="@{/dispose(aging=0)}">所有请求</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown hidden-caret">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="la la-bell"></i>
-                            <span class="notification">3</span>
+                            <!--<span class="notification">3</span>-->
                         </a>
                         <ul class="dropdown-menu notif-box" aria-labelledby="navbarDropdown">
                             <li>
