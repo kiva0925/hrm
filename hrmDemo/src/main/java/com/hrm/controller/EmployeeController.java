@@ -121,6 +121,7 @@ public class EmployeeController {
         for (int i = 0; i < earningsVo.size(); i++) {
             if(earningsVo.get(i).geteWhether()==0){
                 earningsVo.remove(i);
+                i--;
             }
         }
         if(earningsVo.size()>0){

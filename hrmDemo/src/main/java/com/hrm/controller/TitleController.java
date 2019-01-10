@@ -74,8 +74,10 @@ public class TitleController {
         return null;
     }
 
+
     @RequestMapping("/delTitle")
-    public String delTitle(Integer tId,HttpSession session) throws Exception{
+    @ResponseBody
+    public void delTitle(Integer tId,HttpSession session) throws Exception{
         Title title = new Title();
         title.settId(tId);
         if(titleService.delTitle(title)>0){
@@ -84,6 +86,6 @@ public class TitleController {
             sign_t = "删除失败";
         }
         session.setAttribute("sign_t",sign_t);
-        return "redirect:getTitle";
+        //return "redirect:getTitle";
     }
 }

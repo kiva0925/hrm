@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class GroomController {
@@ -24,6 +22,8 @@ public class GroomController {
     private GroomService groomService;
     @Resource
     private ManageService manageService;
+    @Resource
+    private DepartmentVoService departmentVoService;
 
     @RequestMapping("/getGroom")
     public String getGroom(HttpSession session,HttpServletResponse response) throws Exception{
@@ -72,6 +72,22 @@ public class GroomController {
         StaffVo staffVo = new StaffVo();
         List<StaffVo> staffVos = staffVoService.getStaffVos(staffVo);
         session.setAttribute("staffVos",staffVos);
+
+        List<DepartmentVo> departmentVos = departmentVoService.getDepartmentVos();
+        Integer sign = 0;
+        for (int i = 0; i < departmentVos.size(); i++) {
+            sign = 0;
+            for (int j = 0; j < staffVos.size(); j++) {
+                if(departmentVos.get(i).getdId()==staffVos.get(j).getTitleVo().getDepartment().getdId()){
+                    sign = 1;
+                }
+            }
+            if(sign==0){
+                departmentVos.remove(i);
+                i--;
+            }
+        }
+        session.setAttribute("departmentVos",departmentVos);
         return "admin/groom";
     }
 
@@ -83,6 +99,36 @@ public class GroomController {
         manage.setgId(groom.getgId());
         if(groomService.updateGroom(groom)>0){
             if(manageService.addManage(manage,staffs)>0){
+                sign_g = "发布成功";
+            }else {
+                sign_g = "发布失败";
+            }
+        }else {
+            sign_g = "发布失败";
+        }
+        session.setAttribute("sign_g",sign_g);
+        return "redirect:getGroom";
+    }
+
+    @RequestMapping("/addManage2")
+    public String addManage2(Groom groom, HttpSession session, HttpServletRequest request) throws Exception{
+        String[] departs = request.getParameterValues("departs");
+        List<StaffVo> staffVos = (List<StaffVo>) session.getAttribute("staffVos");
+        Set<String> num = new HashSet<>();
+        for (int i = 0; i < staffVos.size(); i++) {
+            for (int j = 0; j < departs.length; j++) {
+                if(Integer.parseInt(departs[j])==staffVos.get(i).getTitleVo().getDepartment().getdId()){
+                    System.out.println(staffVos.get(i).getsId());
+                    num.add(staffVos.get(i).getsId()+"");
+                }
+            }
+        }
+        String[] array = num.toArray(new String[0]);
+        String sign_g = null;
+        Manage manage = new Manage();
+        manage.setgId(groom.getgId());
+        if(groomService.updateGroom(groom)>0){
+            if(manageService.addManage(manage,array)>0){
                 sign_g = "发布成功";
             }else {
                 sign_g = "发布失败";

@@ -28,12 +28,16 @@
                     <li><a href="#">Category</a></li>
                     <li><a href="#">Price</a></li>
                     <li><a href="#">Blog</a></li>
-                    <li><a href="/getBio">我的简历</a></li>
+                    <li><a href="#">我的简历</a>
+                        <ul>
+                            <li><a href="/getBio">查看简历</a></li>
+                            <li><a href="/updateBio">修改简历</a></li>
+                        </ul>
+                    </li>
                     <li class="menu-has-children"><a href="#">我的信箱</a>
                         <ul>
                             <li><a href="giveJob">我的面试情况</a></li>
-                            <li><a href="#">我的员工信息</a></li>
-                            <li><a href="#">全部</a></li>
+                            <li><a href="matter">我的员工信息</a></li>
                         </ul>
                     </li>
                     <li th:if="${session.user==null}"><a class="ticker-btn" href="get">Sign</a></li>

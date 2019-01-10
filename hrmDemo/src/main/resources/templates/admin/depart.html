@@ -260,8 +260,8 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>删除部门</label>
-                                        <select class="form-control input-square" id="squareSelect" name="dId">
-                                            <option>请选择</option>
+                                        <select class="form-control input-square" id="squareSelect" name="dId" required>
+                                            <option value="0">请选择</option>
                                             <option th:each="d:${session.departments}" th:value="${d.dId}"><span th:text="${d.dName}"></span></option>
                                         </select>
                                     </div>

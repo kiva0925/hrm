@@ -1,9 +1,11 @@
 package com.hrm.service.Impl;
 
 import com.hrm.dao.DepartmentMapper;
+import com.hrm.dao.StaffVoMapper;
 import com.hrm.dao.TitleMapper;
 import com.hrm.model.Department;
 import com.hrm.model.DepartmentExample;
+import com.hrm.model.StaffVo;
 import com.hrm.model.TitleExample;
 import com.hrm.service.DepartmentService;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentMapper departmentMapper;
     @Resource
     private TitleMapper titleMapper;
+    @Resource
+    private StaffVoMapper staffVoMapper;
 
     @Override
     public int adddepartment(Department department) {
@@ -25,8 +29,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public int deldepartment(Department department) {
-        if(1!=1){//员工接口
-
+        StaffVo staffVo = new StaffVo();
+        List<StaffVo> staffVos = staffVoMapper.getStaffVos(staffVo);
+        for (int i = 0; i < staffVos.size(); i++) {
+            if(staffVos.get(i).getTitleVo().getDepartment().getdId()!=department.getdId()){
+                staffVos.remove(i);
+                i--;
+            }
+        }
+        if(staffVos.size()>0){//判断是否有这个员工
+            return 0;//有员工不能删除
         }
         TitleExample titleExample = new TitleExample();
         TitleExample.Criteria criterion = titleExample.createCriteria();

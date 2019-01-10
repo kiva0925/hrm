@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Controller
 public class UserController {
@@ -39,6 +40,22 @@ public class UserController {
         return "normal/login";
     }
 
+    @RequestMapping("/updateBio")
+    public String updateBio(HttpSession session) throws Exception{
+        User user = (User) session.getAttribute("user");
+        Bio bio = null;
+        if(user==null){
+            return "normal/login";
+        }else {
+            bio = bioService.getBio(user);
+            session.setAttribute("bio",bio);
+        }
+        if(bio == null){
+            return "normal/wBio";
+        }
+        return "normal/gBio";
+    }
+
     @RequestMapping("/getBio")
     public String getBio(HttpSession session) throws Exception{
         User user = (User) session.getAttribute("user");
@@ -66,14 +83,25 @@ public class UserController {
             }else if(user1.getuType() == 2){//员工登陆
                 return "redirect:employees";
             }
-            return "index";
+            return "redirect:index";
         }
         return "normal/login";
     }
 
     @RequestMapping("/register")
-    public String register(User user, HttpSession session)throws Exception{
-        userService.register(user);
+    public String register(User user,HttpServletResponse response)throws Exception{
+        String sign_u = null;
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        if(pattern.matcher(user.getuName()).matches()==true){
+            sign_u = "注册失败，不能以全数字设置用户名";
+        }else {
+            if(userService.register(user)>0){
+                sign_u = "注册成功";
+            }else {
+                sign_u = "注册失败";
+            }
+        }
+        response.getWriter().print("<script>alert(\""+sign_u+"\");</script>");
         return "normal/login";
     }
 
@@ -168,5 +196,21 @@ public class UserController {
         }else {
             response.getWriter().print("失败");
         }
+    }
+
+    @RequestMapping("/matter")
+    public String matter(Integer iId,HttpSession session)throws Exception{
+        User user = (User) session.getAttribute("user");
+        Staff staff = new Staff();
+        Bio bio = null;
+        if(user==null){
+            return "normal/login";
+        }else {
+            bio = bioService.getBio(user);
+            staff = staffService.getStaffByBid(bio.getbId());
+        }
+        session.setAttribute("staff",staff);
+        session.setAttribute("bio",bio);
+        return "normal/matter";
     }
 }

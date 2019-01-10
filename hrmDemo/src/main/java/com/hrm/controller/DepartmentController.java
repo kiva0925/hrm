@@ -52,10 +52,14 @@ public class DepartmentController {
     @RequestMapping("/deldepartment")
     public String deldepartment(Department department, HttpSession session, Model model) throws Exception{
         System.out.println(department);
-        if(departmentService.deldepartment(department)>0){
-            sign = "删除成功";
+        if(department.getdId()!=0){
+            if(departmentService.deldepartment(department)>0){
+                sign = "删除成功";
+            }else {
+                sign = "删除失败";
+            }
         }else {
-            sign = "删除失败";
+            sign = "删除失败,请选择有效的部门";
         }
         session.setAttribute("sign",sign);
         return "redirect:depart";

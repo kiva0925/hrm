@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -117,9 +118,17 @@ public class HrmApplicationTests {
     @Test
     public void getStaffVos(){//待考察
         StaffVo staffVo = new StaffVo();
-        staffVo.setsId(4);
+        //staffVo.setsId(4);
+        //staffVo.settId(2);
+        //staffVo.getTitleVo().setdId(1);//不可以
         //staffVo.setsHiredate("2018-2");
         List<StaffVo> staffVos = staffVoService.getStaffVos(staffVo);
+        for (int i = 0; i < staffVos.size(); i++) {
+            if(staffVos.get(i).getTitleVo().getDepartment().getdId()!=2){
+                staffVos.remove(i);
+                i--;
+            }
+        }
         System.out.println(staffVos);
     }
 
@@ -218,6 +227,12 @@ public class HrmApplicationTests {
         Quit quit = new Quit();
         List<Quit> quit1 = quitService.getQuit(quit);
         System.out.println(quit1);
+    }
+
+    @Test
+    public void getInt() throws ParseException{
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        System.out.println(pattern.matcher("11").matches());
     }
 
 }

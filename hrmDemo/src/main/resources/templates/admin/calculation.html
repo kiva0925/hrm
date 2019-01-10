@@ -257,7 +257,6 @@
                                         <th scope="col">奖惩费用</th>
                                         <th scope="col">社保费用</th>
                                         <th scope="col">实发工资</th>
-                                        <th scope="col">操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -274,11 +273,6 @@
                                         <td th:text="${e.eRewards}"></td>
                                         <td th:text="${e.eSecurity}"></td>
                                         <td th:text="${e.eSum}"></td>
-                                        <td>
-                                            <a th:href="@{/(sId=${e.eId})}">
-                                                <button class="btn btn-info btn-sm">查看</button>
-                                            </a>
-                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

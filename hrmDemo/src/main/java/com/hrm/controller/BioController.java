@@ -26,6 +26,14 @@ public class BioController {
         return "redirect:getBio";
     }
 
+    @RequestMapping("/uBio")
+    public String uBio(Bio bio,HttpSession session)throws Exception{
+        User user = (User) session.getAttribute("user");
+        bio.setuId(user.getuId());
+        bioService.updateVio(bio);
+        return "redirect:index";
+    }
+
     @RequestMapping("/checkBio")
     public String checkBio(Bio bio,HttpSession session)throws Exception{
         System.out.println(bio);

@@ -1,6 +1,8 @@
 package com.hrm.service.Impl;
 
+import com.hrm.dao.StaffVoMapper;
 import com.hrm.dao.TitleMapper;
+import com.hrm.model.StaffVo;
 import com.hrm.model.Title;
 import com.hrm.model.TitleExample;
 import com.hrm.service.TitleService;
@@ -13,6 +15,8 @@ import java.util.List;
 public class TitleServiceImpl implements TitleService {
     @Resource
     private TitleMapper titleMapper;
+    @Resource
+    private StaffVoMapper staffVoMapper;
     @Override
     public int addTitle(Title title) {
         int sign = 0;
@@ -30,8 +34,11 @@ public class TitleServiceImpl implements TitleService {
 
     @Override
     public int delTitle(Title title) {
-        if(1!=1){//判断是否有这个员工
-
+        StaffVo staffVo = new StaffVo();
+        staffVo.settId(title.gettId());
+        List<StaffVo> staffVos = staffVoMapper.getStaffVos(staffVo);
+        if(staffVos.size()>0){//判断是否有这个员工
+            return 0;//有员工不能删除
         }
         return titleMapper.deleteByPrimaryKey(title.gettId());
     }

@@ -248,7 +248,7 @@
                     <div class="col-md-6" style="right: auto">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">培训发布</div>
+                                <div class="card-title">员工培训发布</div>
                             </div>
                             <form action="addManage" method="post">
                                 <div class="card-body">
@@ -260,14 +260,6 @@
                                     <div class="form-group">
                                         <label>培训要求</label>
                                         <textarea class="form-control"  th:text="${session.groom.gRequire}" name="gRequire" id="gRequire" rows="5"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>选择部门</label>
-                                        <div class="form-check"><!--有问题-->
-                                            <!--<label class="form-check-label" th:each="s:${session.staffVos}">
-                                                <input class="form-check-input task-select" type="checkbox" name="staffs" th:value="${s.sId}">
-                                            </label>-->
-                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label>选择员工</label>
@@ -290,6 +282,47 @@
                                 </div>
                                 <div class="card-action">
                                     <input id="train" class="btn btn-success" type="submit" value="发布">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="right: auto">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">部门培训发布</div>
+                            </div>
+                            <form action="addManage2" method="post">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>培训内容</label>
+                                        <input type="hidden" name="gId" th:value="${session.groom.gId}">
+                                        <input type="text" th:value="${session.groom.gContent}" name="gContent" class="form-control input-square">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>培训要求</label>
+                                        <textarea class="form-control"  th:text="${session.groom.gRequire}" name="gRequire" rows="5"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>选择部门</label>
+                                        <div class="form-check"><!--有问题-->
+                                            <label class="form-check-label" th:each="d:${session.departmentVos}">
+                                                <input class="form-check-input task-select" type="checkbox" name="departs" th:value="${d.dId}">
+                                                <span class="form-check-sign" th:text="${d.dName}"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>开始时间</label>
+                                        <input type="text" th:value="${session.groom.gBegintime}" name="gBegintime" class="form-control input-square">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>结束时间</label>
+                                        <input type="text" th:value="${session.groom.gEndtime}" name="gEndtime" class="form-control input-square">
+                                    </div>
+                                </div>
+                                <div class="card-action">
+                                    <input class="btn btn-success" type="submit" value="发布">
                                 </div>
                             </form>
                         </div>
